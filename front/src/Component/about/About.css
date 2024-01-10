@@ -1,0 +1,144 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: 'Roboto' , sans-serif;
+}
+/* .aboutall{
+    background-color: #9f74e8;
+      
+} */
+
+.aboutheading{
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    margin: 7px auto;
+}
+.aboutheading h1{
+    font-size: 50px;
+    color: #faf7f7;
+    margin-bottom: 25px;
+    /* position: relative; */
+}
+
+.aboutheading h1::after{
+    content: "";
+    /* position: absolute; */
+    width: 100%;
+    height: 4px;
+    display: block;
+    margin: 0 auto;
+    background-color: #9a31e0;} 
+
+.aboutheading p {
+    font-size: 23px;
+    margin-bottom: 35px;
+    color: #ffffff;
+}
+.aboutcontainer{
+    width:  90%;
+    margin: 0 auto;
+    padding: 10px 20px;
+    text-align: center;
+}
+.about{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.about-image{
+    flex: 1;
+    margin-right: 40px;
+    overflow: hidden;
+}
+
+.about-image img{
+    max-width: 100%;
+    height: auto;
+    display: inline-block;
+    transition: 0.5s ease;
+    border-radius: 12px;
+}
+
+/* .about-image:hover img{
+    transform: scale(1.2);
+} */
+
+
+.about-content{
+    flex: 1;
+}
+
+.about-content h2{
+    color: #faf7f7;
+    background-color: #957feeb6;
+    border-radius: 10px 10px 0px 0px;
+    padding: 10px;
+    font-size: 23px;
+    padding-bottom: 15px;
+}
+
+.about-content p{
+    font-size: 23px;
+    line-height: 1.5;
+    color: #ffffff;
+    background-color: #4f0897e8;
+    border-radius: 0px 0px 10px 10px;
+    padding: 15px;
+}
+.about-content .read-more{
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #9a31e0;
+    color: #fff;
+    font-size: 19px;
+    text-decoration: none;
+    border-radius: 25px;
+    margin-top: 15px;
+    transition: 0.3s ease-in-out;
+
+}
+
+.about-content .read-more:hover{
+    background-color: #760ccc;
+    border: 1px solid #cbadf3;
+}
+
+@media screen and (max-width: 768px){
+    .aboutheading{
+        padding: 0px;
+    }
+    .aboutheading h1{
+        font-size: 36px;
+    }
+    .aboutheading p{
+        font-size: 17px;
+        margin-bottom: 0px;
+    }
+    .aboutcontainer{
+        padding: 0px;
+    }
+    .about{
+        padding: 20px;
+        flex-direction: column;
+    }
+    .about-image{
+        margin-right: 0px;
+        margin-bottom: 20px;
+    }
+
+    .about-content p {
+        padding: 0px;
+        font-size: 21px;
+    }
+
+    .about-content .read-more{
+        font-size: 21px;
+    }
+}

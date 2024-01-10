@@ -1,0 +1,125 @@
+.divpay{
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  margin: 0;
+  height: 100vh;
+ 
+  
+}
+
+.container1 {
+position: absolute;
+top: 50%;
+left: 50%;
+max-height: 600px;
+overflow-y: scroll;
+-webkit-transform: translate(-50%, -50%);
+transform: translate(-50%, -50%);
+}
+
+table {
+width: 800px;
+height: 60px;
+border-collapse: collapse;
+overflow: hidden;
+box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+padding: 15px;
+background-color: rgba(45, 5, 91, 0.5);
+color: #ece3e3;
+}
+
+th {
+text-align: left;
+}
+
+thead th {
+align-items: center;
+text-align: center;
+justify-content: center;
+background-color: #55608f;
+}
+
+tbody tr:hover {
+background-color: rgba(255, 255, 255, 0.3);
+transition: 0.1s ease-in-out;
+}
+
+tbody td {
+position: relative;
+}
+
+tbody td:hover:before {
+content: "";
+position: absolute;
+left: 0;
+right: 0;
+top: -9999px;
+bottom: -9999px;
+background-color: rgba(255, 255, 255, 0.2);
+z-index: -1;
+}
+
+button:hover{
+  color: rgb(61, 6, 117);
+  background-color: #d2c7fce3;
+  border: 1px solid rgb(61, 6, 117);
+  transition: 0.3s ease-in-out;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+  
+  table {
+    width: 300px;
+  }
+  
+  tr {
+    display: block;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+  }
+  thead{
+    display: inline;
+  }
+  tr td {
+    text-align: center;
+    display: block;
+    width: 100%;
+    position: relative;
+    white-space: pre-wrap;
+    border: none;
+    border-bottom: 1px solid #ddd;
+  }
+      
+  tr td:nth-child(2) {
+    color: white;
+    padding: 8px;
+    border-radius: 5px 5px 0 0;
+  }
+  tr td:not(:nth-child(2))::before {
+    content: attr(name);
+    position: absolute;
+    top: 8px;
+    left: 0;
+    font-weight: bold;
+    text-align: left;
+    width: 100%;
+    padding: 0 8px;
+    
+  }
+
+  button:hover{
+    color: rgb(61, 6, 117);
+    background-color: #d2c7fce3;
+    border: 1px solid rgb(61, 6, 117);
+    transition: 0.3s ease-in-out;
+  }
+ }
+ 
