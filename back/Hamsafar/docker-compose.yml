@@ -1,16 +1,38 @@
 version: '3'
 
 services:
+  hamsafar_postgresql:
+    image: postgres:12
+    container_name: hamsafar_postgresql
+    volumes:
+      - hamsafar_postgresql_v:/var/lib/postgresql/data
+    restart: always
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - backend_network
   backend:
     build:
       context: .
       dockerfile: Dockerfile
     restart: always
+    depends_on:
+      - hamsafar_postgresql
     ports:
       - "8000:8000"
     command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/backend
     networks:
       - backend_network
+
+volumes:
+  hamsafar_postgresql_v:
+    external: true
 
 networks:
   backend_network:
