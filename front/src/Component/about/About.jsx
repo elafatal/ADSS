@@ -8,8 +8,8 @@ const About = () => {
         <>
         <div className="aboutall">
         <div className="aboutheading">
-            <h1>About us</h1>
-            <p>sapiente vel ipsam accusantium. Molestias culpa cupiditate, obcaecati asperiores voluptatem nemo quis, consequatur quo necessitatibus fugiat, blanditiis maxime ex minus!</p>
+            <h1>درباره ما</h1>
+            
 
         </div>
         <div className="aboutcontainer">

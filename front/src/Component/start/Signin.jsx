@@ -12,28 +12,27 @@ const Signin = ()=> {
 
       const inputs = [
         {
-            id: 1,
-            name: "stunumber",
-            type: "text",
-            placeholder: "stu number",
-            errorMessage:
-              "stu number should be a number",
-            label: "stu number",
-            pattern: "^[0-9]{11}$",
-            required: true,
-          },
-          {
-            id: 2,
-            name: "password",
-            type: "password",
-            placeholder: "Password",
-            errorMessage:
-              "Password should be 8-20 characters.",
-            label: "Password",
-            // pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$`,
-            pattern: "^[0-9]{11}$",
-            required: true,
-          }
+          id: 1,
+          name: "stunumber",
+          type: "text",
+          placeholder: "شماره دانشجویی",
+          errorMessage:
+            "شماره دانشجویی باید یک عدد 11 رقمی باشد",
+          label: "stu number",
+          pattern: "^[0-9]{11}$",
+          required: true,
+        },
+        {
+          id: 2,
+          name: "password",
+          type: "password",
+          placeholder: "رمز عبور",
+          errorMessage:
+            "رمز عبور شما باید بین 8 تا 20 کاراکتر باشد",
+          label: "Password",
+          pattern: `^(?=.*[a-z A-Z 0-9 @ # _ ]{8,20}$`,
+          required: true,
+        },
       ]
 
     const handleSubmit = (e) => {
@@ -48,7 +47,7 @@ const Signin = ()=> {
     return(
         <div className="app" >
       <form onSubmit={handleSubmit}>
-        <h1>login</h1>
+        <h1>ورود</h1>
         {inputs.map((input) => (
           <FormInput
             key={input.id}
@@ -57,8 +56,8 @@ const Signin = ()=> {
             onChange={onChange}
           />
         ))}
-        <button type='submit'>Login</button>
-        <button onClick={()=>{navigate('/signup')}}>Sign up</button>
+        <button type='submit'>ورود</button>
+        <button onClick={()=>{navigate('/signup')}}>ثبت نام</button>
       </form>
     </div>
     )

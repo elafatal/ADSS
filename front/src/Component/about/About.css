@@ -20,8 +20,8 @@
 }
 .aboutheading h1{
     font-size: 50px;
-    color: #faf7f7;
-    margin-bottom: 25px;
+    color: #1b2430;
+    margin-bottom: 20px;
     /* position: relative; */
 }
 
@@ -32,12 +32,15 @@
     height: 4px;
     display: block;
     margin: 0 auto;
-    background-color: #9a31e0;} 
+    background-color: #2a3239ec;} 
 
 .aboutheading p {
     font-size: 23px;
     margin-bottom: 35px;
     color: #ffffff;
+    background-color: #2a3239ec;
+    border-radius: 10px;
+    padding: 10px;
 }
 .aboutcontainer{
     width:  90%;
@@ -76,38 +79,41 @@
 }
 
 .about-content h2{
-    color: #faf7f7;
-    background-color: #957feeb6;
+    color: #2a3239;
+    /* background-color: #2a3239d1 ; */
     border-radius: 10px 10px 0px 0px;
     padding: 10px;
-    font-size: 23px;
-    padding-bottom: 15px;
+    font-size: 28px;
+    padding-bottom: 10px;
 }
 
 .about-content p{
     font-size: 23px;
     line-height: 1.5;
-    color: #ffffff;
-    background-color: #4f0897e8;
+    color: #2a3239;
+    font-weight: bold;
+    /* background-color:#8e97a6c8 ; */
+   
     border-radius: 0px 0px 10px 10px;
     padding: 15px;
 }
 .about-content .read-more{
     display: inline-block;
     padding: 10px 20px;
-    background-color: #9a31e0;
+    background-color: #2a3239;
     color: #fff;
     font-size: 19px;
     text-decoration: none;
-    border-radius: 25px;
+    border-radius: 15px;
     margin-top: 15px;
     transition: 0.3s ease-in-out;
 
 }
 
 .about-content .read-more:hover{
-    background-color: #760ccc;
-    border: 1px solid #cbadf3;
+    color: #1b2430;
+    background-color: #8e97a6;
+    border: 1px solid #1b2430;
 }
 
 @media screen and (max-width: 768px){

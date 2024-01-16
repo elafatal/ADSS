@@ -56,9 +56,9 @@ const Newtrips = ()=> {
             id: 1,
             name: "cardnumber",
             type: "text",
-            placeholder: "card number",
+            placeholder: "شماره کارت بانکی",
             errorMessage:
-              "It should be a valid card number",
+              "شماره کارت باید 16 رقم بدون کاراکتر اضافی باشد",
             pattern: "^[0-9]{16}$",
             required: true
           },
@@ -66,16 +66,16 @@ const Newtrips = ()=> {
             id: 2,
             name: "scity",
             type: "select",
-            placeholder: "start city",
+            placeholder: "شهر مبدا",
             errorMessage:
-              "start city is empty",
+              "شهر مبدا خود را انتخاب نکردید",
             required: true
           },
           {
             id: 3,
             name: "startinglocatin",
             type: "loc",
-            placeholder: "starting location",
+            placeholder: "مبدا دقیقتان را انتخاب کنید",
             errorMessage:
               "start location is empty",
             required: true,
@@ -84,7 +84,7 @@ const Newtrips = ()=> {
             id: 4,
             name: "dcity",
             type: "select",
-            placeholder: "destination city",
+            placeholder: "شهر مقصد",
             errorMessage:
               "this fild is empty",
             required: true
@@ -93,7 +93,7 @@ const Newtrips = ()=> {
             id: 5,
             name: "destination",
             type: "loc",
-            placeholder: "destination",
+            placeholder: "مقصد دقیقتان را انتخاب کنید",
             errorMessage:
               "destination is empty!",
             required: true,
@@ -136,7 +136,7 @@ const Newtrips = ()=> {
     return(
         <div className="app" >
       <form onSubmit={handleSubmit}>
-        <h1><i class="fa-solid fa-car-side"></i> create new trip </h1>
+        <h1><i class="fa-solid fa-car-side"></i> ایجاد سفر جدید </h1>
         {inputs.map((input) => ( (input.type === "select" ) ? <select name={input.name} onChange={onChange} className="formInput">
           <option>{input.placeholder}</option>{response.data.map((s) => <option  value={values[response.data.name]} >{s.name}</option>)}
            </select> : 
@@ -149,7 +149,7 @@ const Newtrips = ()=> {
             onChange={onChange}
           />
         ))}
-        <button type='submit'  style={{height: '50%' }} >create my trip</button>
+        <button type='submit'  style={{height: '50%' }} >ایجاد سفر</button>
       </form>
     </div>
     )

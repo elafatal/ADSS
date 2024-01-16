@@ -17,9 +17,9 @@ const Signup = ()=> {
             id: 1,
             name: "stunumber",
             type: "text",
-            placeholder: "stu number",
+            placeholder: "شماره دانشجویی",
             errorMessage:
-              "stu number should be a number",
+              "شماره دانشجویی باید یک عدد 11 رقمی باشد",
             label: "stu number",
             pattern: "^[0-9]{11}$",
             required: true,
@@ -28,8 +28,8 @@ const Signup = ()=> {
             id: 2,
             name: "phonenumber",
             type: "text",
-            placeholder: "phone number",
-            errorMessage: "It should be a valid Phone number",
+            placeholder: "شماره موبایل",
+            errorMessage: "شماره تماس شما باید با 09 شروع شود ",
             label: "phone number",
             pattern: "^[0-9]{11}$",
             required: true,
@@ -38,20 +38,19 @@ const Signup = ()=> {
             id: 3,
             name: "password",
             type: "password",
-            placeholder: "Password",
+            placeholder: "رمز عبور",
             errorMessage:
-              "Password should be 8-20 characters.",
+              "رمز عبور شما باید بین 8 تا 20 کاراکتر باشد",
             label: "Password",
-            // pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$`,
-            pattern: "^[0-9]{11}$",
+            pattern: `^(?=.*[a-z A-Z 0-9 @ #]{8,20}$`,
             required: true,
           },
           {
             id: 4,
             name: "confirmPassword",
             type: "password",
-            placeholder: "Confirm Password",
-            errorMessage: "Passwords don't match!",
+            placeholder: "تایید رمز عبور",
+            errorMessage: "رمزهای عبور مطابقت ندارند",
             label: "Confirm Password",
             pattern: values.password,
             required: true,
@@ -70,7 +69,7 @@ const Signup = ()=> {
     return(
         <div className="app" >
       <form onSubmit={handleSubmit}>
-        <h1>create account</h1>
+        <h1>ایجاد حساب کاربری</h1>
         {inputs.map((input) => (
           <FormInput
             key={input.id}
@@ -79,8 +78,8 @@ const Signup = ()=> {
             onChange={onChange}
           />
         ))}
-        <button type='submit'>Sign up</button>
-        <button onClick={()=>{navigate('/signin')}}>login</button>
+        <button type='submit'>ثبت نام</button>
+        <button onClick={()=>{navigate('/signin')}}>ورود</button>
       </form>
     </div>
     )

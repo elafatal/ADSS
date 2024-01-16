@@ -21,9 +21,9 @@ const Info = ()=> {
             id: 1,
             name: "fullname",
             type: "text",
-            placeholder: "full name",
+            placeholder: "نام و نام خانوادگی",
             errorMessage:
-              "your name should be 3-16 characters and shouldn't include any special character!r",
+              "اسم شما باید بین 3 تا 16 حرف باشد و شامل کاراکترهای خاص نباشد",
             label: "full name",
             pattern: "^[a-z A-z]{3,16}$",
             required: true,
@@ -32,47 +32,30 @@ const Info = ()=> {
             id: 2,
             name: "stunumber",
             type: "text",
-            placeholder: "stu number",
+            placeholder: "شماره دانشجویی",
             errorMessage:
-              "stu number should be a number",
+              "شماره دانشجویی باید یک عدد 11 رقمی باشد",
             label: "stu number",
             pattern: "^[0-9]{11}$",
             required: true,
           },
           {
             id: 3,
-            name: "unilocatin",
-            type: "text",
-            placeholder: "uni locatin",
-            errorMessage:
-              "uni location is empty!",
-            label: "uni locatin",
-            required: true,
-          },
-          {
-            id: 4,
-            name: "homelocation",
-            type: "text",
-            placeholder: "home location",
-            label: "homelocation",
-          },
-          {
-            id: 5,
             name: "phonenumber",
             type: "text",
-            placeholder: "phone number",
-            errorMessage: "It should be a valid Phone number",
+            placeholder: "شماره موبایل",
+            errorMessage: "شماره تماس شما باید با 09 شروع شود ",
             label: "phone number",
             pattern: "^[0-9]{11}$",
             required: true,
           },
           {
-            id: 6,
+            id: 4,
             name: "username",
             type: "text",
-            placeholder: "Username (optional)",
+            placeholder: "نام کاربری (اختیاری)",
             errorMessage:
-              "Username should be 3-16 characters and shouldn't include any special character!",
+              "این نام کاربری قبلاً گرفته شده است",
             label: "Username"
           },
           
@@ -89,7 +72,7 @@ const Info = ()=> {
     return(
         <div className="app" >
       <form onSubmit={handleSubmit}>
-        <h1><i className="fa-solid fa-user-gear"></i> your profile </h1>
+        <h1><i className="fa-solid fa-user-gear"></i> مشخصات شما </h1>
         {inputs.map((input) => (
           <FormInput
             key={input.id}
@@ -98,8 +81,8 @@ const Info = ()=> {
             onChange={onChange}
           />
         ))}
-        <button>Done</button>
-        <button onClick={()=>{navigate('/start')}}>Home</button>
+        <button>ثبت</button>
+        <button onClick={()=>{navigate('/start')}}>بازگشت </button>
       </form>
     </div>
     )

@@ -1,13 +1,14 @@
 body{
-background-image: url('https://images.hdqwalls.com/download/purple-rays-sky-stars-digitalart-river-4k-rb-1680x1050.jpg');
+background-image: url('https://wallpaperaccess.com/full/3362848.jpg');
  background-size: cover;
  /* background: linear-gradient(
         rgba(255, 255, 255, 0.133),
         rgba(255, 255, 255, 0.312)
       ),
-      url("https://images.hdqwalls.com/download/purple-rays-sky-stars-digitalart-river-4k-rb-1680x1050.jpg");
+      url("https://w0.peakpx.com/wallpaper/70/859/HD-wallpaper-purple-theme-2020-colorful-abstract-design.jpg");
     background-size: cover;
     background-position: center; */
+    background-color: #929487;
 }
 nav{
    display: flex;
@@ -41,7 +42,7 @@ nav{
 
 #navbar li a:hover,
 #navbar li a.active{
-   color: #7d47c0;
+   color: #813de8;
 }
 
 #navbar li a:hover::after,
@@ -49,7 +50,7 @@ nav{
    content: "";
    width: 30%;
    height: 2px;
-   background:#7d47c0;
+   background:#813de8;
    position: absolute;
    bottom: -4px;
    left: 20px;
