@@ -13,6 +13,8 @@ const ExistingTrips = () => {
     const response={
         "data": [
                 { 
+                "scity" : "بابل",
+                "dcity" : "ساری",
                 "id": 0 ,
                 "names" : ["محمدرضا شجریان","مهنا حسنی","حسین بهزادی"," یحیی گلمحمدی "],
                 "time" : "15:00"
@@ -25,6 +27,8 @@ const ExistingTrips = () => {
                 "time" : "12:00"
                 },
                 {
+                "scity" : "بابل",
+                "dcity" : "ساری",
                 "id": 2,
                 "names" : ["رضا","مهنا حسنی", "حسین بهزادی"],
                 "time" : "8:00"
@@ -32,13 +36,7 @@ const ExistingTrips = () => {
         ]
     }
     let users = [];
-    let m=0
-    let t =4
-    console.log(response.data.length) 
-    response.data.forEach(item => {
-        m=item.names.length
-        
-     });
+    
      const member = (n) => {
         users=[]
         for (let i = 0; i <4; i++) {
