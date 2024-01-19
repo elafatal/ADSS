@@ -1,103 +1,103 @@
 body{
-background-image: url('https://wallpaperaccess.com/full/3362848.jpg');
- background-size: cover;
- /* background: linear-gradient(
-        rgba(255, 255, 255, 0.133),
-        rgba(255, 255, 255, 0.312)
-      ),
-      url("https://w0.peakpx.com/wallpaper/70/859/HD-wallpaper-purple-theme-2020-colorful-abstract-design.jpg");
+   background-image: url('https://wallpaperaccess.com/full/3362848.jpg');
     background-size: cover;
-    background-position: center; */
-    background-color: #929487;
-}
-nav{
-   display: flex;
-   align-items: center;
-   justify-content: space-between;
-   background: #1b2430;
-   padding: 20px 80px;
-   box-shadow: 0 5px 15px rgba(0, 0, 0,0.6);
-}
-
-#navbar{
-   display: flex;
-   align-items: center;
-   justify-content: center;
-
-}
-
-#navbar li{
-   list-style: none;
-   padding: 0 20px;
-   position: relative;
-}
-
-#navbar li a{
-   text-decoration: none;
-   font-size: 1.3rem;
-   font-weight: 600;
-   color: aliceblue;
-   transition: 0.3s ease-in-out;
-}
-
-#navbar li a:hover,
-#navbar li a.active{
-   color: #813de8;
-}
-
-#navbar li a:hover::after,
-#navbar li a.active::after{
-   content: "";
-   width: 30%;
-   height: 2px;
-   background:#813de8;
-   position: absolute;
-   bottom: -4px;
-   left: 20px;
-}
-
-#mobile{
-   display: none;
-}
-
-
-#mobile i {
-   color: aliceblue;
-}
-
-@media screen and (max-width: 769px){
+    /* background: linear-gradient(
+           rgba(255, 255, 255, 0.133),
+           rgba(255, 255, 255, 0.312)
+         ),
+         url("https://w0.peakpx.com/wallpaper/70/859/HD-wallpaper-purple-theme-2020-colorful-abstract-design.jpg");
+       background-size: cover;
+       background-position: center; */
+       background-color: #929487;
+   }
+   nav{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #1b2430;
+      padding: 20px 80px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0,0.6);
+   }
+   
    #navbar{
       display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: flex-start;
-      position: fixed;
-      top: 90px;
-      right: -300px;
-      width: 300px;
-      height: 100vh;
-      background:#2a3239 ;
-      box-shadow:0 40px 60px rgba(0, 0, 0,0.1) ;
-      padding: 40px 0 0 10px;
+      align-items: center;
+      justify-content: center;
+   
+   }
+   
+   #navbar li{
+      list-style: none;
+      padding: 0 20px;
+      position: relative;
+   }
+   
+   #navbar li a{
+      text-decoration: none;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: aliceblue;
       transition: 0.3s ease-in-out;
    }
-
-   #navbar.active{
-     
-      right: 0px;
+   
+   #navbar li a:hover,
+   #navbar li a.active{
+      color: #813de8;
    }
-   #navbar li{
-      margin-bottom: 25px;
+   
+   #navbar li a:hover::after,
+   #navbar li a.active::after{
+      content: "";
+      width: 30%;
+      height: 2px;
+      background:#813de8;
+      position: absolute;
+      bottom: -4px;
+      left: 20px;
    }
-
+   
    #mobile{
-      display: block;
-   }
-
-   #mobile li{
-      font-size:24px ;
-      cursor: pointer
+      display: none;
    }
    
-}
    
+   #mobile i {
+      color: aliceblue;
+   }
+   
+   @media screen and (max-width: 769px){
+      #navbar{
+         display: flex;
+         flex-direction: column;
+         align-items: flex-start;
+         justify-content: flex-start;
+         position: fixed;
+         top: 90px;
+         right: -300px;
+         width: 300px;
+         height: 100vh;
+         background:#2a3239 ;
+         box-shadow:0 40px 60px rgba(0, 0, 0,0.1) ;
+         padding: 40px 0 0 10px;
+         transition: 0.3s ease-in-out;
+      }
+   
+      #navbar.active{
+        
+         right: 0px;
+      }
+      #navbar li{
+         margin-bottom: 25px;
+      }
+   
+      #mobile{
+         display: block;
+      }
+   
+      #mobile li{
+         font-size:24px ;
+         cursor: pointer
+      }
+      
+   }
+      

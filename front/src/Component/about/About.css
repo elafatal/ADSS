@@ -100,7 +100,7 @@
 .about-content .read-more{
     display: inline-block;
     padding: 10px 20px;
-    background-color: #2a3239;
+    background-color: rgb(42, 50, 57);
     color: #fff;
     font-size: 19px;
     text-decoration: none;

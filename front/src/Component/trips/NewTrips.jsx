@@ -126,13 +126,7 @@ const Newtrips = ()=> {
         console.log(values);
       };
 
-    // const selectHandler = (event) => {
-    //   console.log(event.target);
-    //   setValues({ ...values, [event.target.name]: event.target.value });
-    //   console.log(values);
-    //  // const response = await axios.post('https://reqres.in/api/login' , );
-    // }
-
+   
     return(
         <div className="app" >
       <form onSubmit={handleSubmit}>

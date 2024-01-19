@@ -8,6 +8,7 @@ import Info from './Component/info/info'
 import Newtrips from './Component/trips/NewTrips'
 import Pay from './Component/pay/Pay'
 import About from './Component/about/About'
+import ExistingTrips from './Component/eTrips/ExistingTrips'
 
 
 
@@ -22,8 +23,10 @@ function App(){
                 <Route path='/signup' element={<Signup/>} />
                 <Route path='/info' element={<Info/>} />
                 <Route path='/newtrip' element={<Newtrips/>} />
+                <Route path='/existtrips' element={<ExistingTrips/>} />
                 <Route path='/pay' element={<Pay/>} />
                 <Route path='/about' element={<About/>} />
+                
                 
             </Routes>
 

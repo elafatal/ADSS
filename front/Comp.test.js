@@ -1,4 +1,4 @@
-import Comp from "./comp";
+import Comp from "./src/comp";
 import React from "react";
 import { render, waitFor, screen, fireEvent } from "@testing-library/react";
 import axios from "axios";
