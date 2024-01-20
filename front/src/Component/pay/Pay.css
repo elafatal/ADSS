@@ -30,8 +30,9 @@ box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 th,
 td {
 padding: 15px;
-background-color: #372d87cb;
-color: #ffffff;
+background-color: #9991dfcb;
+color: #160229;
+font-weight: bold;
 }
 
 th {

@@ -19,7 +19,7 @@ class Home extends Component{
                      <li><a className="active" href="Home"><i className="fa-solid fa-house"></i> خانه</a></li>
                      <li><a href="info"><i className="fa-solid fa-user-pen"></i> اطلاعات شخصی </a></li>
                      <li><a href="newtrip"> <i className="fa-solid fa-taxi"></i> ایجاد سفر</a></li>
-                     <li><a href="existtrips"><i className="fa-solid fa-users"></i> سفرهای موجود</a></li>
+                     <li><a href="searshTrips"><i className="fa-solid fa-users"></i> سفرهای موجود</a></li>
                      <li><a href="about"> <i className="fa-solid fa-circle-info"></i> درباره ما</a></li>
                      <li><a href="pay"> <i class="fa-regular fa-credit-card"></i> حساب ها</a></li>
                      <li><a href="#">ثبت خودرو</a></li>

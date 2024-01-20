@@ -93,7 +93,7 @@ const Pay= () => {
             return (
               <tr {...row.getRowProps()}>
                 {row.cells.map((cell) => ( cell.value===false ?
-                 <td><button onClick={()=>{handleClick(index)}} className="bi" style={{margin:'17px', background:' rgba(102, 51, 153, 0.5)'}}>payed</button></td>:
+                 <td><button onClick={()=>{handleClick(index)}} className="bi" style={{margin:'17px', background:' rgba(102, 51, 153, 0.5)'}}> تصویه </button></td>:
                   <td {...cell.getCellProps()}> {cell.render("Cell")} </td>
                 ))}
               </tr>

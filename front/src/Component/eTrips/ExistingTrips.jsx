@@ -13,22 +13,28 @@ const ExistingTrips = () => {
     const response={
         "data": [
                 { 
-                "scity" : "بابل",
-                "dcity" : "ساری",
+                "startinglocatin" : "خیابان نادر",
+                "destination":"دانشگاه نوشیروانی",
+                "dcity" : "بابل",
+                "scity" : "ساری",
                 "id": 0 ,
                 "names" : ["محمدرضا شجریان","مهنا حسنی","حسین بهزادی"," یحیی گلمحمدی "],
                 "time" : "15:00"
                 },
                 {
-                "scity" : "بابل",
-                "dcity" : "ساری",
+                "startinglocatin" : "خیابان  18 دی ",
+                "destination":"دانشگاه نوشیروانی",
+                "dcity" : "بابل",
+                "scity" : "ساری",
                 "id" : 1,
                 "names": ["محمدرضا","مهنا حسنی"],
                 "time" : "12:00"
                 },
                 {
-                "scity" : "بابل",
-                "dcity" : "ساری",
+                "startinglocatin" : " میدان امام",
+                "destination":"دانشگاه علوم پزشکی",
+                "dcity" : "بابل",
+                "scity" : "ساری",
                 "id": 2,
                 "names" : ["رضا","مهنا حسنی", "حسین بهزادی"],
                 "time" : "8:00"
@@ -62,8 +68,8 @@ const ExistingTrips = () => {
                   <div className="card-header11">
                       <div className="car-icon11">
                           <img src={logo2} alt="logo2"/>
-                          <p>nader street-sari <br/>
-                          nooshirvani-babol</p>
+                          <p>{trips.startinglocatin}-{trips.scity} <br/>
+                          {trips.destination} -<p>{trips.dcity}</p></p>
                       </div>
                       <div className="time">
                           <img src={logo3} alt="logo3"/>
