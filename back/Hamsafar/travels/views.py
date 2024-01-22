@@ -43,7 +43,7 @@ class SignUpAPIView(APIView):
                     user_profile.save()
                     response = Response({'message': 'User created successfully', 'status': 'success'})
                     response.set_cookie(key='access_token', value=access_token, httponly=True)
-                    return HttpResponse(status.HTTP_200_OK, data={'message':'User was made successfuly'})
+                    return HttpResponse(status.HTTP_200_OK)
             else:
                 return Response({'error': 'Passwords do not match', 'status': 'fail'})
         except Exception as e:
@@ -54,11 +54,11 @@ class SignUpAPIView(APIView):
 
 class LoginAPIView(APIView):
     permission_classes = (permissions.AllowAny,)
-
+    authentication_classes = (TokenAuthentication,)
     def post(self, request, format=None):
         data = self.request.data
 
-        username = data['username']
+        username = data['student_number']
         password = data['password']
 
         try:
