@@ -13,13 +13,15 @@ from jose import jwt
 # import jwt
 from rest_framework.authentication import TokenAuthentication
 from .utils import generate_access_token
-# Create your views here.
 
+
+# Create your views here.
 
 
 class SignUpAPIView(APIView):
     permission_classes = (permissions.AllowAny,)
     authentication_classes = (TokenAuthentication,)
+
     def post(self, request, format=None):
         try:
             data = self.request.data
@@ -36,7 +38,8 @@ class SignUpAPIView(APIView):
                     user = User.objects.create_user(username=username, password=password)
                     user = User.objects.get(id=user.id)
                     access_token = generate_access_token(user)
-                    user_profile = UserProfile.objects.create(user=user, student_number=student_number, phone_number=phone_number)
+                    user_profile = UserProfile.objects.create(user=user, student_number=student_number,
+                                                              phone_number=phone_number)
                     user_profile.save()
                     response = Response({'message': 'User created successfully', 'status': 'success'})
                     response.set_cookie(key='access_token', value=access_token, httponly=True)
@@ -48,7 +51,7 @@ class SignUpAPIView(APIView):
             return Response({'error': f'an error occurred', 'status': 'fail'})
 
 
-@method_decorator(csrf_protect, name='dispatch')
+
 class LoginAPIView(APIView):
     permission_classes = (permissions.AllowAny,)
 
@@ -62,8 +65,14 @@ class LoginAPIView(APIView):
             user = auth.authenticate(username=username, password=password)
 
             if user is not None:
-                auth.login(request, user)
-                return Response({'message': 'User authenticated', 'status': 'success'})
+                user_access_token = generate_access_token(user)
+                response = Response()
+                response.set_cookie(key='access_token', value=user_access_token, httponly=True)
+                response.data = {
+                    'access_token': user_access_token
+                }
+                return response
+
             else:
                 return Response({'error': 'Error authenticating', 'status': 'fail'})
         except:
@@ -473,7 +482,7 @@ class SearchTravelsAPIView(APIView):
             for travel in travels:
                 travelers_data = [{
                     'id': x,
-                    'name':  y + " " + z,
+                    'name': y + " " + z,
                 } for x, y, z in
                     travel.travelers.values_list('user_id', 'user__user__first_name', 'user__user__last_name')]
                 travel_data.append({
