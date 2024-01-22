@@ -21,4 +21,5 @@ urlpatterns = [
     path('cancel/', DeleteTravelAPIView.as_view(), name="delete travel"),
     path('creditor_checks/', CreditorChecksAPIView.as_view(), name="creditor checks"),
     path('search/', SearchTravelsAPIView.as_view(), name="search travels"),
+    path('user/', UserViewAPI.as_view(), name="search travels"),
 ]
