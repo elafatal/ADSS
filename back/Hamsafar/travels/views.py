@@ -1,6 +1,7 @@
 from django.db import IntegrityError
 from django.shortcuts import render
 from django.db.models import Q, When, Case, Count
+from django.http import HttpResponse
 from .models import *
 from django.contrib import auth
 from rest_framework.views import APIView
@@ -8,13 +9,17 @@ from rest_framework.response import Response
 from rest_framework import status, permissions
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 from django.utils.decorators import method_decorator
-
-
+from jose import jwt
+# import jwt
+from rest_framework.authentication import TokenAuthentication
+from .utils import generate_access_token
 # Create your views here.
-@method_decorator(csrf_protect, name='dispatch')
+
+
+
 class SignUpAPIView(APIView):
     permission_classes = (permissions.AllowAny,)
-
+    authentication_classes = (TokenAuthentication,)
     def post(self, request, format=None):
         try:
             data = self.request.data
@@ -30,12 +35,16 @@ class SignUpAPIView(APIView):
                 else:
                     user = User.objects.create_user(username=username, password=password)
                     user = User.objects.get(id=user.id)
+                    access_token = generate_access_token(user)
                     user_profile = UserProfile.objects.create(user=user, student_number=student_number, phone_number=phone_number)
                     user_profile.save()
-                    return Response({'message': 'User created successfully', 'status': 'success'})
+                    response = Response({'message': 'User created successfully', 'status': 'success'})
+                    response.set_cookie(key='access_token', value=access_token, httponly=True)
+                    return HttpResponse(status.HTTP_200_OK, data={'message':'User was made successfuly'})
             else:
                 return Response({'error': 'Passwords do not match', 'status': 'fail'})
         except Exception as e:
+            print(e)
             return Response({'error': f'an error occurred', 'status': 'fail'})
 
 
