@@ -7,7 +7,9 @@ Sign up an account.
 
 **Parameters:**
 - student number
+- phone_number
 - password
+- re_password
 
 **Response:**
 ```json
@@ -23,9 +25,8 @@ login as an account.
 
 **Parameters:**
 - student_number
-- phone_number
 - password
-- re_password
+
 
 **Response:**
 ```json
