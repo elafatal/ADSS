@@ -1,6 +1,9 @@
+from django.contrib.auth import get_user_model
 from django.db import IntegrityError
 from django.shortcuts import render
 from django.db.models import Q, When, Case, Count
+from rest_framework.exceptions import AuthenticationFailed
+
 from django.http import HttpResponse
 from .models import *
 from django.contrib import auth
@@ -16,6 +19,7 @@ from .utils import generate_access_token
 
 
 # Create your views here.
+from ..Hamsafar import settings
 
 
 class SignUpAPIView(APIView):
@@ -51,10 +55,9 @@ class SignUpAPIView(APIView):
             return Response({'error': f'an error occurred', 'status': 'fail'})
 
 
-
 class LoginAPIView(APIView):
     permission_classes = (permissions.AllowAny,)
-    authentication_classes = (TokenAuthentication,)
+
     def post(self, request, format=None):
         data = self.request.data
 
@@ -77,6 +80,22 @@ class LoginAPIView(APIView):
                 return Response({'error': 'Error authenticating', 'status': 'fail'})
         except:
             return Response({'error': 'Something went wrong when logging in', 'status': 'fail'})
+
+
+class UserViewAPI(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request):
+        user_token = request.COOKIES.get('access_token')
+
+        if not user_token:
+            raise AuthenticationFailed('Unauthenticated user.')
+
+        payload = jwt.decode(user_token, settings.SECRET_KEY, algorithms=['HS256'])
+
+        user = User.objects.filter(user_id=payload['user_id']).first()
+        return Response({'data': user.username})
 
 
 class LogoutAPIView(APIView):
