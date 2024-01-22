@@ -22,8 +22,10 @@ Sign up an account.
 login as an account.
 
 **Parameters:**
-- student number
+- student_number
+- phone_number
 - password
+- re_password
 
 **Response:**
 ```json

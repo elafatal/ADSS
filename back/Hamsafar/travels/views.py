@@ -22,6 +22,7 @@ class SignUpAPIView(APIView):
             password = data['password']
             re_password = data['re_password']
             student_number = data['student_number']
+            phone_number = data['phone_number']
 
             if password == re_password:
                 if User.objects.filter(username=student_number).exists():
@@ -29,7 +30,7 @@ class SignUpAPIView(APIView):
                 else:
                     user = User.objects.create_user(username=username, password=password)
                     user = User.objects.get(id=user.id)
-                    user_profile = UserProfile.objects.create(user=user, student_number=student_number)
+                    user_profile = UserProfile.objects.create(user=user, student_number=student_number, phone_number=phone_number)
                     user_profile.save()
                     return Response({'message': 'User created successfully', 'status': 'success'})
             else:
