@@ -8,13 +8,16 @@ from rest_framework.response import Response
 from rest_framework import status, permissions
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 from django.utils.decorators import method_decorator
-
-
+import jwt
+from rest_framework.authentication import TokenAuthentication
+from .utils import generate_access_token
 # Create your views here.
-@method_decorator(csrf_protect, name='dispatch')
+
+
+
 class SignUpAPIView(APIView):
     permission_classes = (permissions.AllowAny,)
-
+    authentication_classes = (TokenAuthentication,)
     def post(self, request, format=None):
         try:
             data = self.request.data
@@ -30,9 +33,11 @@ class SignUpAPIView(APIView):
                 else:
                     user = User.objects.create_user(username=username, password=password)
                     user = User.objects.get(id=user.id)
+                    access_token = generate_access_token(user)
                     user_profile = UserProfile.objects.create(user=user, student_number=student_number, phone_number=phone_number)
                     user_profile.save()
-                    return Response({'message': 'User created successfully', 'status': 'success'})
+                    response = Response({'message': 'User created successfully', 'status': 'success'})
+                    response.set_cookie(key='access_token', value=access_token, httponly=True)
             else:
                 return Response({'error': 'Passwords do not match', 'status': 'fail'})
         except Exception as e:
