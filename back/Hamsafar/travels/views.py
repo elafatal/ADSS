@@ -1,6 +1,6 @@
 from django.db import IntegrityError
 from django.shortcuts import render
-from django.db.models import Q
+from django.db.models import Q, When, Case, Count
 from .models import *
 from django.contrib import auth
 from rest_framework.views import APIView
@@ -18,26 +18,24 @@ class SignUpAPIView(APIView):
     def post(self, request, format=None):
         try:
             data = self.request.data
-            username = data['username']
+            username = data['student_number']
             password = data['password']
             re_password = data['re_password']
             student_number = data['student_number']
 
             if password == re_password:
-                if User.objects.filter(username=username).exists():
-                    return Response({'error': 'username already exists.'})
-                elif UserProfile.objects.filter(student_number=student_number).exists():
-                    return Response({'error': 'student number already exists.'})
+                if User.objects.filter(username=student_number).exists():
+                    return Response({'error': 'username already exists.', 'status': 'fail'})
                 else:
                     user = User.objects.create_user(username=username, password=password)
                     user = User.objects.get(id=user.id)
                     user_profile = UserProfile.objects.create(user=user, student_number=student_number)
                     user_profile.save()
-                    return Response({'success': 'User created successfully'})
+                    return Response({'message': 'User created successfully', 'status': 'success'})
             else:
-                return Response({'error': 'Passwords do not match'})
+                return Response({'error': 'Passwords do not match', 'status': 'fail'})
         except Exception as e:
-            return Response({'error': f'{e}'})
+            return Response({'error': f'an error occurred', 'status': 'fail'})
 
 
 @method_decorator(csrf_protect, name='dispatch')
@@ -55,20 +53,20 @@ class LoginAPIView(APIView):
 
             if user is not None:
                 auth.login(request, user)
-                return Response({'success': 'User authenticated'})
+                return Response({'message': 'User authenticated', 'status': 'success'})
             else:
-                return Response({'error': 'Error authenticating'})
+                return Response({'error': 'Error authenticating', 'status': 'fail'})
         except:
-            return Response({'error': 'Something went wrong when logging in'})
+            return Response({'error': 'Something went wrong when logging in', 'status': 'fail'})
 
 
 class LogoutAPIView(APIView):
     def post(self, request, format=None):
         try:
             auth.logout(request)
-            return Response({'success': 'Logged out'})
+            return Response({'message': 'Logged out', 'status': 'success'})
         except:
-            return Response({'error': 'Something went wrong when logging out'})
+            return Response({'error': 'Something went wrong when logging out', 'status': 'fail'})
 
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
@@ -76,7 +74,7 @@ class GetCSRFToken(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def get(self, request, format=None):
-        return Response({'success': 'CSRF cookie set'})
+        return Response({'message': 'CSRF cookie set', 'status': 'success'})
 
 
 class UserTravelsAPIView(APIView):
@@ -94,8 +92,7 @@ class UserTravelsAPIView(APIView):
             for travel in travels:
                 travelers_data = [{
                     'id': x,
-                    'firstname': y,
-                    'lastname': z,
+                    'name': y + " " + z,
                 } for x, y, z in
                     travel.travelers.values_list('user_id', 'user__user__first_name', 'user__user__last_name')]
                 travel_data.append({
@@ -107,13 +104,14 @@ class UserTravelsAPIView(APIView):
                     'made_by': travel.made_by.user.first_name + travel.made_by.user.last_name,
                     'travelers': travelers_data,
                     'situation': travel.situation,
+                    'time': "" if travel.time is None else travel.time.strftime("%m/%d/%Y, %H:%M:%S"),
                 })
 
-            return Response({'data': travel_data})
+            return Response({'data': travel_data, 'status': 'success'})
 
         except Exception as e:
             print(e)
-            return Response({'error': 'an error occurred'})
+            return Response({'error': 'an error occurred', 'status': 'fail'})
 
 
 class UserActiveTravelAPIView(APIView):
@@ -128,11 +126,10 @@ class UserActiveTravelAPIView(APIView):
                 ~Q(situation="3") & Q(travelers__user=user_profile) & ~Q(situation="0")
             )
             if travel is None:
-                return Response({'error': 'no active travel'})
+                return Response({'error': 'no active travel', 'status': 'fail'})
             travelers_data = [{
                 'id': x,
-                'firstname': y,
-                'lastname': z,
+                'name': y + " " + z,
             } for x, y, z in travel.travelers.values_list('user_id', 'user__user__first_name', 'user__user__last_name')]
             travel_data = {
                 'id': travel.id,
@@ -142,12 +139,13 @@ class UserActiveTravelAPIView(APIView):
                 'destination_location': travel.destination.name,
                 'situation': travel.situation.title(),
                 'travelers': travelers_data,
+                'time': "" if travel.time is None else travel.time.strftime("%m/%d/%Y, %H:%M:%S"),
             }
 
-            return Response({'data': travel_data})
+            return Response({'data': travel_data, 'status': 'success'})
         except Exception as e:
             print(e)
-            return Response({'error': 'an error occurred'})
+            return Response({'error': 'an error occurred', 'status': 'fail'})
 
 
 class CreateTravelAPIView(APIView):
@@ -169,13 +167,13 @@ class CreateTravelAPIView(APIView):
             if int(isDriver) == 1:
                 travel.driver = user_profile
                 travel.save()
-            return Response({'success': 'travel is made successfully'})
+            return Response({'message': 'travel is made successfully', 'status': 'success'})
         except ValidationError as e:
             print(e)
-            return Response({'error': f'user already has active travel'})
+            return Response({'error': f'user already has active travel', 'status': 'fail'})
         except Exception as e:
             print(e)
-            return Response({'error': 'an error occurred'})
+            return Response({'error': 'an error occurred', 'status': 'fail'})
 
 
 class CheckAuthenticatedAPIView(APIView):
@@ -186,11 +184,11 @@ class CheckAuthenticatedAPIView(APIView):
             isAuthenticated = user.is_authenticated
 
             if isAuthenticated:
-                return Response({'isAuthenticated': 'success'})
+                return Response({'isAuthenticated': 'success', 'status': 'success'})
             else:
-                return Response({'isAuthenticated': 'error'})
+                return Response({'isAuthenticated': 'error', 'status': 'success'})
         except:
-            return Response({'error': 'Something went wrong when checking authentication status'})
+            return Response({'error': 'Something went wrong when checking authentication status', 'status': 'fail'})
 
 
 class JoinTravelAPIView(APIView):
@@ -206,16 +204,16 @@ class JoinTravelAPIView(APIView):
             travel = Travel.objects.get(id=travel_id)
             traveler = Traveler.objects.create(user=user_profile, travel=travel)
             traveler.save()
-            return Response({'success': 'joined successfully'})
+            return Response({'message': 'joined successfully', 'status': 'success'})
         except ValidationError as e:
             print(e)
-            return Response({'error': 'travel is full'})
+            return Response({'error': 'travel is full', 'status': 'fail'})
         except IntegrityError as e:
             print(e)
-            return Response({'error': 'already joined travel'})
+            return Response({'error': 'already joined travel', 'status': 'fail'})
         except Exception as e:
             print(e)
-            return Response({'error': 'an error occurred'})
+            return Response({'error': 'an error occurred', 'status': 'fail'})
 
 
 class StartTravelAPIView(APIView):
@@ -231,10 +229,10 @@ class StartTravelAPIView(APIView):
             )
             travel.situation = "2"
             travel.save()
-            return Response({'success': 'started successfully'})
+            return Response({'message': 'started successfully', 'status': 'success'})
         except Exception as e:
             print(e)
-            return Response({'error': 'an error occurred'})
+            return Response({'error': 'an error occurred', 'status': 'fail'})
 
 
 class SetPriceAPIView(APIView):
@@ -252,7 +250,7 @@ class SetPriceAPIView(APIView):
                 Q(situation=2) & Q(made_by=user_profile)
             )
             if Paycheck.objects.filter(Q(source_travel__travel=travel)).exists():
-                return Response({'error': 'price already set'})
+                return Response({'error': 'price already set', 'status': 'fail'})
             traveler_count = travel.travelers.count()
             if traveler_count == 5:
                 each_price = price / traveler_count - 1
@@ -278,10 +276,10 @@ class SetPriceAPIView(APIView):
                 user_paycheck.payed = True
                 user_paycheck.save()
 
-            return Response({'success': 'price set successfully'})
+            return Response({'message': 'price set successfully', 'status': 'success'})
         except Exception as e:
             print(e)
-            return Response({'error': 'an error occurred'})
+            return Response({'error': 'an error occurred', 'status': 'fail'})
 
 
 class FinishTravelAPIView(APIView):
@@ -297,10 +295,10 @@ class FinishTravelAPIView(APIView):
             )
             travel.situation = "3"
             travel.save()
-            return Response({'success': 'finished successfully'})
+            return Response({'message': 'finished successfully', 'success': 'fail'})
         except Exception as e:
             print(e)
-            return Response({'error': 'an error occurred'})
+            return Response({'error': 'an error occurred', 'status': 'fail'})
 
 
 class ChangeToCashAPIView(APIView):
@@ -319,10 +317,10 @@ class ChangeToCashAPIView(APIView):
             paycheck.save()
             paycheck.payed = True
             paycheck.save()
-            return Response({'success': 'successfully changed to cash'})
+            return Response({'message': 'successfully changed to cash', 'status': 'success'})
         except Exception as e:
             print(e)
-            return Response({'error': 'an error occurred'})
+            return Response({'error': 'an error occurred', 'status': 'fail'})
 
 
 class ChangeToCreditAPIView(APIView):
@@ -337,15 +335,15 @@ class ChangeToCreditAPIView(APIView):
             traveler_id = data['traveler_id']
             traveler = Traveler.objects.get(id=traveler_id)
             if traveler.travel.made_by == user_profile:
-                paycheck = Paycheck.objects.get(traveler=traveler)
+                paycheck = Paycheck.objects.get(source_travel=traveler)
                 paycheck.pay_in_cash = False
                 paycheck.save()
-                return Response({'success': 'successfully changed to online pay'})
+                return Response({'message': 'successfully changed to online pay', 'status': 'success'})
             else:
-                return Response({'error': 'cant access'})
+                return Response({'error': 'cant access', 'status': 'fail'})
         except Exception as e:
             print(e)
-            return Response({'error': 'an error occurred'})
+            return Response({'error': 'an error occurred', 'status': 'fail'})
 
 
 class CreditorChecksAPIView(APIView):
@@ -372,10 +370,10 @@ class CreditorChecksAPIView(APIView):
                         Q(travelings__paycheck_id=paycheck.id)
                     ).user.last_name,
                 })
-            return Response({'data': data})
+            return Response({'data': data, 'status': 'success'})
         except Exception as e:
             print(e)
-            return Response({'error': 'an error occurred'})
+            return Response({'error': 'an error occurred', 'status': 'fail'})
 
 
 class AllCitiesAPIView(APIView):
@@ -389,10 +387,10 @@ class AllCitiesAPIView(APIView):
                 data.append({'name': city.name,
                              'id': city.id,
                              })
-            return Response({'data': data})
+            return Response({'data': data, 'status': 'success'})
         except Exception as e:
             print(e)
-            return Response({'error': 'an error occurred'})
+            return Response({'error': 'an error occurred', 'status': 'fail'})
 
 
 class CityLocationsAPIView(APIView):
@@ -409,10 +407,10 @@ class CityLocationsAPIView(APIView):
                     'name': location.name,
                     'id': location.id,
                 })
-            return Response({'data': data})
+            return Response({'data': data, 'status': 'success'})
         except Exception as e:
             print(e)
-            return Response({'error': 'an error occurred'})
+            return Response({'error': 'an error occurred', 'status': 'fail'})
 
 
 class DeleteTravelAPIView(APIView):
@@ -427,10 +425,61 @@ class DeleteTravelAPIView(APIView):
                 Q(situation="1") & Q(made_by=user_profile)
             )
             if active_travel is None:
-                return Response({'error': 'not any active travel'})
+                return Response({'error': 'not any active travel', 'status': 'fail'})
             active_travel.situation = "0"
             active_travel.save()
-            return Response({'success': 'deleted successfully'})
+            return Response({'message': 'deleted successfully', 'status': 'success'})
+        except Exception as e:
+            print(e)
+            return Response({'error': 'an error occurred', 'status': 'fail'})
+
+
+class SearchTravelsAPIView(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request, format=None):
+        try:
+            data = self.request.data
+            origin_id = data['origin_id']
+            origin = ImportantLocation.objects.get(id=origin_id)
+            destination_id = data['destination_id']
+            destination = ImportantLocation.objects.get(id=destination_id)
+            result = Travel.objects.annotate(num_travelers=Count('travelers'))
+            not_full_travels = result.filter(driver__isnull=True, num_travelers__lt=4) | result.filter(
+                driver__isnull=False,
+                num_travelers__lt=5)
+            travels = not_full_travels.filter(
+                Q(origin__city=origin.city) & Q(destination__city=destination.city) & Q(situation=1)
+            ).order_by(
+                Case(
+                    When(origin=origin, destination=destination, then=0),
+                    When(origin=origin, then=1),
+                    When(destination=destination, then=2),
+                    default=3,
+                    output_field=models.IntegerField(),
+                )
+            )
+            travel_data = []
+            for travel in travels:
+                travelers_data = [{
+                    'id': x,
+                    'name':  y + " " + z,
+                } for x, y, z in
+                    travel.travelers.values_list('user_id', 'user__user__first_name', 'user__user__last_name')]
+                travel_data.append({
+                    'id': travel.id,
+                    'origin_city': travel.origin.city.name,
+                    'origin_location': travel.origin.name,
+                    'destination_city': travel.destination.city.name,
+                    'destination_location': travel.destination.name,
+                    'made_by': travel.made_by.user.first_name + travel.made_by.user.last_name,
+                    'travelers': travelers_data,
+                    'situation': travel.situation,
+                    'time': "" if travel.time is None else travel.time.strftime("%m/%d/%Y, %H:%M:%S"),
+                })
+            if len(travel_data) == 0:
+                return Response({'data': travel_data, 'status': 'not found'})
+            return Response({'data': travel_data, 'status': 'success'})
         except Exception as e:
             print(e)
             return Response({'error': 'an error occurred'})

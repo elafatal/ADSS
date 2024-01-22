@@ -77,6 +77,7 @@ class Travel(models.Model):
     situation = models.CharField(max_length=3, default="1", null=False, choices=travel_choices)
     created_at = models.DateTimeField(default=datetime.now(), blank=False)
     price = models.IntegerField(null=True, blank=True)
+    time = models.DateTimeField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if self.pk is None:
