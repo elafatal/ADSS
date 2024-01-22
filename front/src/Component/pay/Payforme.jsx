@@ -6,8 +6,9 @@ import  { useState } from 'react';
 import {useNavigate} from "react-router-dom"
 
 
-const Pay= () => {
-  const navigate=useNavigate();
+
+const Payforme= () => {
+    const navigate=useNavigate();
   const response={
     "data": [
         {
@@ -21,18 +22,7 @@ const Pay= () => {
             "price": 16000,
             "pay_in_cash": false,
             "user": "younes ebrahimi"
-        },
-        {
-            "card_number": "6037997404365943",
-            "price": 16000,
-            "pay_in_cash": false,
-            "user": "sepehr"
-        },
-        {
-            "card_number": "6037997404365943",
-            "price": 16000,
-            "pay_in_cash": false,
-            "user": "kazemi",        }
+        }
     ]
 }
 
@@ -72,7 +62,7 @@ const Pay= () => {
   }
   return (
     <>
-      <button onClick={()=>{navigate('/Payforme')}}  className="read-more">  طلبکاری های شما</button>
+    <button onClick={()=>{navigate('/Pay')}} className="read-more">  بدهکاری های شما</button>
     <div className="divpay">
     {/* <a className="active" href="Home"><i className="fa-solid fa-house"></i> Home</a> */}
     <div className="container1">
@@ -103,11 +93,9 @@ const Pay= () => {
         </tbody>
       </table>
     </div>
-
   </div>
- 
   </>
   );
 }
 
-export default Pay;
+export default Payforme;

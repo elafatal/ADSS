@@ -13,6 +13,9 @@ body{
     align-items: center;
 
 }
+
+
+
 .users,.trips{
     height: 600px;
     max-height: 100%;
@@ -344,6 +347,7 @@ width: 40px;
         width: 500px;
     }
 }
+
 @media screen and (max-width:977px) {
     .sidenav{
         width: 30%;

@@ -7,6 +7,7 @@ import Signin from './Component/start/Signin'
 import Info from './Component/info/info'
 import Newtrips from './Component/trips/NewTrips'
 import Pay from './Component/pay/Pay'
+import Payforme from './Component/pay/Payforme'
 import About from './Component/about/About'
 import ExistingTrips from './Component/eTrips/ExistingTrips'
 import SearchTrips from './Component/eTrips/SearchTrips'
@@ -27,6 +28,7 @@ function App(){
                 <Route path='/searshTrips' element={<SearchTrips/>} />
                 <Route path='/existtrips' element={<ExistingTrips/>} />
                 <Route path='/pay' element={<Pay/>} />
+                <Route path='/payforme' element={<Payforme/>} />
                 <Route path='/about' element={<About/>} />
                 
                 

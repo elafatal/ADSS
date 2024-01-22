@@ -113,7 +113,7 @@ const Newtrips = ()=> {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        navigate('/Home')
+        navigate('/Start')
       };
 
       useEffect(() => {

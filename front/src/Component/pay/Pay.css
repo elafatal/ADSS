@@ -8,7 +8,26 @@
  
   
 }
+.read-more{
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: rgb(42, 50, 57);
+  color: #fff;
+  font-size: 19px;
+  text-decoration: none;
+  border-radius: 15px;
+  margin-top: 15px;
+  transition: 0.3s ease-in-out;
+  width: 170px;
 
+}
+
+
+.read-more:hover{
+  color: #1b2430;
+  background-color: #8e97a6;
+  border: 1px solid #1b2430;
+}
 .container1 {
 position: absolute;
 top: 50%;

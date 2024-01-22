@@ -1,14 +1,14 @@
 body{
-   background-image: url('https://wallpaperaccess.com/full/3362848.jpg');
-    background-size: cover;
-    /* background: linear-gradient(
+   /* background-image: url('https://wallpaperaccess.com/full/3362848.jpg');
+    background-size: cover; */
+    background: linear-gradient(
            rgba(255, 255, 255, 0.133),
-           rgba(255, 255, 255, 0.312)
+           rgba(255, 255, 255, 0.471)
          ),
-         url("https://w0.peakpx.com/wallpaper/70/859/HD-wallpaper-purple-theme-2020-colorful-abstract-design.jpg");
+         url("https://wallpaperaccess.com/full/3362848.jpg");
        background-size: cover;
-       background-position: center; */
-       background-color: #929487;
+       background-position: center;
+       background-color: rgba(13,15,28,255);
    }
    nav{
       display: flex;

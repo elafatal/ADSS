@@ -2,20 +2,22 @@ import {  useState } from 'react'
 import FormInput from './FormInput'
 import "./Profile.css"
 import {useNavigate} from "react-router-dom"
+import axios from 'axios'
+import { useEffect } from 'react'
 
 const Signup = ()=> {
   const navigate=useNavigate();
     const [values, setValues] = useState({
-        stunumber: "",
-        phonenumber: "",
+        student_number: "",
+        phone_number: "",
         password: "",
-        confirmPassword: "",
+        re_password: "",
       });
 
       const inputs = [
         {
             id: 1,
-            name: "stunumber",
+            name: "student_number",
             type: "text",
             placeholder: "شماره دانشجویی",
             errorMessage:
@@ -26,7 +28,7 @@ const Signup = ()=> {
           },
           {
             id: 2,
-            name: "phonenumber",
+            name: "phone_number",
             type: "text",
             placeholder: "شماره موبایل",
             errorMessage: "شماره تماس شما باید با 09 شروع شود ",
@@ -47,7 +49,7 @@ const Signup = ()=> {
           },
           {
             id: 4,
-            name: "confirmPassword",
+            name: "re_password",
             type: "password",
             placeholder: "تایید رمز عبور",
             errorMessage: "رمزهای عبور مطابقت ندارند",
@@ -56,14 +58,29 @@ const Signup = ()=> {
             required: true,
           },
       ]
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        navigate('/')
+      const csrf = async(e) => {
+        const response = await axios.get('http://127.0.0.1:8000/travels/csrf_cookie/', {
+        withCredentials: true
+        });
+        console.log(response)
       };
+
+    const handleSubmit = async(e) => {
+        e.preventDefault();
+        navigate('/start')
+        csrf()
+        const response = await axios.post('http://127.0.0.1:8000/travels/register/',values);
+
+        console.log(response)
+      };
+
+      useEffect(() => {
+        console.log(values);
+       }, [values]);
 
     const onChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });
+        console.log(values);
       };
 
     return(

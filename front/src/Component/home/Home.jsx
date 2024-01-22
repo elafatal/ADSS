@@ -21,8 +21,8 @@ class Home extends Component{
                      <li><a href="newtrip"> <i className="fa-solid fa-taxi"></i> ایجاد سفر</a></li>
                      <li><a href="searshTrips"><i className="fa-solid fa-users"></i> سفرهای موجود</a></li>
                      <li><a href="about"> <i className="fa-solid fa-circle-info"></i> درباره ما</a></li>
-                     <li><a href="pay"> <i class="fa-regular fa-credit-card"></i> حساب ها</a></li>
-                     <li><a href="#">ثبت خودرو</a></li>
+                     <li><a href="pay"> <i class="fa-regular fa-credit-card"></i> کیف پول</a></li>
+                     <li><a href="mytrips"><i className="fa-solid fa-taxi"></i> سفرهای من</a></li>
                  </ul>
                  </div>
                     <div id="mobile" onClick={this.handleClick}>
