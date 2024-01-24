@@ -17,9 +17,8 @@ from jose import jwt
 from rest_framework.authentication import TokenAuthentication
 from .utils import generate_access_token
 
-
 # Create your views here.
-from ..Hamsafar import settings
+from Hamsafar import settings
 
 
 class SignUpAPIView(APIView):
@@ -46,8 +45,7 @@ class SignUpAPIView(APIView):
                                                               phone_number=phone_number)
                     user_profile.save()
                     response = Response({'message': 'User created successfully', 'status': 'success'})
-                    response.set_cookie(key='access_token', value=access_token, httponly=True)
-                    return HttpResponse(status.HTTP_200_OK)
+                    return Response
             else:
                 return Response({'error': 'Passwords do not match', 'status': 'fail'})
         except Exception as e:
@@ -82,20 +80,51 @@ class LoginAPIView(APIView):
             return Response({'error': 'Something went wrong when logging in', 'status': 'fail'})
 
 
-class UserViewAPI(APIView):
+class UserLogoutViewAPI(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (permissions.AllowAny,)
 
     def get(self, request):
-        user_token = request.COOKIES.get('access_token')
+        user_token = request.COOKIES.get('access_token', None)
+        if user_token:
+            response = Response()
+            response.delete_cookie('access_token')
+            response.data = {
+                'message': 'Logged out successfully.'
+            }
+            return response
+        response = Response()
+        response.data = {
+            'message': 'User is already logged out.'
+        }
+        return response
 
+
+def get_user_from_request(request):
+    user_token = request.headers.get('Authorization', '').split(' ')[-1]
+
+    if not user_token:
+        raise AuthenticationFailed('Unauthenticated user.')
+
+    payload = jwt.decode(user_token, settings.SECRET_KEY, algorithms=['HS256'])
+
+    user = User.objects.filter(id=payload['user_id']).first()
+    return user
+
+
+class UserViewAPI(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (permissions.AllowAny,)
+    def get(self, request, format=None):
+        user_token = request.headers.get('Authorization', '').split(' ')[-1]
         if not user_token:
             raise AuthenticationFailed('Unauthenticated user.')
 
         payload = jwt.decode(user_token, settings.SECRET_KEY, algorithms=['HS256'])
 
-        user = User.objects.filter(user_id=payload['user_id']).first()
-        return Response({'data': user.username})
+        user = User.objects.filter(id=payload['user_id']).first()
+
+        return Response({'data': user.username, 'status':'success'})
 
 
 class LogoutAPIView(APIView):
