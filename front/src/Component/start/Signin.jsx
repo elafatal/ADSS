@@ -50,16 +50,12 @@ const Signin = ()=> {
         e.preventDefault();
 
         let response = await axios.post('http://127.0.0.1:8000/travels/login/',values);
-        alert("Your message here");
+       
         if (response.data.status != "fail") {
           navigate('/Start')
-          setTimeout(() => {
-            navigate('/Start')
-        }, 3000); // Delay of 3 seconds
         }
         const cookies = new Cookies();
         cookies.set('access_token', response.data.access_token);
-        console.log(cookies.get('access_token'));
 
         response = await axios.get('http://127.0.0.1:8000/travels/user/',{
   headers: {

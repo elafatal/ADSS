@@ -4,11 +4,14 @@ import "../start/profile.css"
 import {useNavigate} from "react-router-dom"
 import axios from 'axios'
 import { useEffect } from 'react'
+import Alert from '@mui/material/Alert';
 
 const Newtrips = ()=> {
   const navigate = useNavigate();
   const [loc, setLoc] = useState([]);
-  const [is_driver , setIs_driver] = useState(0);
+  const [locc, setlocc] = useState([]);
+  const [locc1, setlocc1] = useState([]);
+  
 
   const handlecity = async () => {
     try {
@@ -26,32 +29,20 @@ const Newtrips = ()=> {
     console.log(loc);
   }, []); 
 
-    const r={
-      "data": [
-          {
-              "name": "falake",
-              "id": 1
-          },
-          {
-              "name": "sadaf",
-              "id": 3
-          }
-      ]
-  }
+
   const [values, setValues] = useState({
-    cardnumber: "",
-    scity: "",
-    startinglocatin: "",
-    dcity: "",
-    destination: "",
-    time: "",
+    is_driver: "0",
+    origin_id: "",
+    destination_id: "",
+    time : "",
+    date : ""
   });
 
 
       const inputs = [
           {
             id: 1,
-            name: "scity",
+            name: "is_driver",
             type: "select",
             placeholder: "شهر مبدا",
             errorMessage:
@@ -60,7 +51,7 @@ const Newtrips = ()=> {
           },
           {
             id: 2,
-            name: "startinglocatin",
+            name: "origin_id",
             type: "loc",
             placeholder: "مبدا دقیقتان را انتخاب کنید",
             errorMessage:
@@ -78,7 +69,7 @@ const Newtrips = ()=> {
           },
           {
             id: 4,
-            name: "destination",
+            name: "destination_id",
             type: "loc",
             placeholder: "مقصد دقیقتان را انتخاب کنید",
             errorMessage:
@@ -94,12 +85,30 @@ const Newtrips = ()=> {
               "time is empty!",
             required: true,
           },
+          {
+            id: 6,
+            name: "date",
+            type: "date",
+            placeholder: "time",
+            errorMessage:
+              "time is empty!",
+            required: true,
+          },
 
 
       ]
 
-    const handleSubmit = (e) => {
+    const handleSubmit =async(e) => {
         e.preventDefault();
+
+        const response = await axios.post('http://127.0.0.1:8000/travels/create/', values);
+        alert("Your message here");
+        if (response.data.status != "fail") {
+          navigate('/Start')
+          setTimeout(() => {
+            navigate('/Start')
+        }, 3000); // Delay of 3 seconds
+        }
         navigate('/Start')
         setIs_driver(1)
       };
@@ -114,26 +123,55 @@ const Newtrips = ()=> {
         console.log(values);
       };
 
-      const getloc = async(e) => {
+      useEffect(() => {
         
-        const selectedCityId = e.target.value;
-        const tok = { "city_id" : selectedCityId}
-        const response = await axios.get('http://127.0.0.1:8000/travels/city_locations/',tok);
-        console.log(response);
-       }
+        console.log(locc);
+      }, []);
+
+      useEffect(() => {
+        
+        console.log(locc1);
+      }, []);
+
+      const getloc = async(num,event) => {
+        
+        const selectedCityId = event.target.value;
+        const tok = { "city_id": selectedCityId };
+        const response = await axios.get('http://127.0.0.1:8000/travels/city_locations/', { params: tok });
+        
+        if (num === 1) {
+          console.log(event.target.value);
+          let data1 = [...locc]
+        data1 = response.data.data
+        setlocc(data1);
+        
+        }
+        if (num === 3) {
+          let data2 = [...locc1]
+          console.log(event.target.value);
+          data2 = response.data.data
+          setlocc1(data2);
+          
+        }
+        
+        
+       } 
+       
 
     return(
-
+      
         <div className="app" >
 
       <form onSubmit={handleSubmit}>
         <h1><i className="fa-solid fa-car-side"></i> ایجاد سفر جدید </h1>
 
-        {inputs.map((input) => ( (input.type === "select" ) ? <select name={input.name} onChange={getloc} className="formInput">
+        {inputs.map((input) => ( (input.type === "select" ) ? <select name={input.name} onChange={(event) => getloc(input.id, event)} className="formInput">
           <option>{input.placeholder}</option>{loc.map((s) => <option  value={s.id} >{s.name}</option>)}
            </select> :
-        (input.type === "loc" ) ? (<select name={input.name} onChange={onChange} className="formInput">
-          <option>{input.placeholder}</option>{r.data.map((sm) => <option value={loc.name} >{sm.name}</option>)} </select>) :
+        (input.type === "loc" && input.id===2 ) ? (<select name={input.name} onChange={onChange} className="formInput">
+          <option>{input.placeholder}</option>{locc.map((sm) => <option value={sm.id} >{sm.name}</option>)} </select>) :
+          (input.type === "loc" && input.id===4 ) ? (<select name={input.name} onChange={onChange} className="formInput">
+          <option>{input.placeholder}</option>{locc1.map((sm) => <option value={sm.id} >{sm.name}</option>)} </select>):
           <FormInput
             key={input.id}
             {...input}
