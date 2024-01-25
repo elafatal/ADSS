@@ -13,6 +13,7 @@ import Alert from '@mui/material/Alert';
 
 const Signin = ()=> {
   
+
   let message=false
   const navigate=useNavigate();
     const [values, setValues] = useState({
@@ -40,7 +41,7 @@ const Signin = ()=> {
           errorMessage:
             "رمز عبور شما باید بین 8 تا 20 کاراکتر باشد",
           label: "Password",
-          pattern: `^(?=.*[a-z A-Z 0-9 @ # _ ]{8,20}$`,
+          pattern: "^(?=.*[a-z A-Z 0-9 @ # _ ]{8,20}$",
           required: true,
         },
       ]
@@ -77,6 +78,7 @@ const Signin = ()=> {
     const onChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });
        
+
       };
 
     return(
@@ -84,9 +86,9 @@ const Signin = ()=> {
        {/* <Alert style={{marginTop: "30px" , marginBottom : "0px"}} variant="outlined" severity="success">
           This is an outlined success Alert.
        </Alert> */}
-       
+
         <div className="app" >
-       
+
       <form onSubmit={handleSubmit}>
         <h1>ورود</h1>
         {inputs.map((input) => (

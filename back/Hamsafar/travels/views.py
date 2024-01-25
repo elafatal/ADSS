@@ -13,13 +13,16 @@ from rest_framework import status, permissions
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 from django.utils.decorators import method_decorator
 from jose import jwt
-# import jwt
 from rest_framework.authentication import TokenAuthentication
 from .utils import generate_access_token
+from Hamsafar import settings
 
 
 # Create your views here.
+<<<<<<< HEAD
 from Hamsafar import settings
+=======
+>>>>>>> 938c4062a46880390d5b984eb2648440e37e633a
 
 
 class SignUpAPIView(APIView):
@@ -46,8 +49,7 @@ class SignUpAPIView(APIView):
                                                               phone_number=phone_number)
                     user_profile.save()
                     response = Response({'message': 'User created successfully', 'status': 'success'})
-                    response.set_cookie(key='access_token', value=access_token, httponly=True)
-                    return HttpResponse(status.HTTP_200_OK)
+                    return Response
             else:
                 return Response({'error': 'Passwords do not match', 'status': 'fail'})
         except Exception as e:
@@ -57,6 +59,7 @@ class SignUpAPIView(APIView):
 
 class LoginAPIView(APIView):
     permission_classes = (permissions.AllowAny,)
+    authentication_classes = (TokenAuthentication,)
 
     def post(self, request, format=None):
         data = self.request.data
@@ -82,20 +85,56 @@ class LoginAPIView(APIView):
             return Response({'error': 'Something went wrong when logging in', 'status': 'fail'})
 
 
-class UserViewAPI(APIView):
+class UserLogoutViewAPI(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (permissions.AllowAny,)
 
     def get(self, request):
-        user_token = request.COOKIES.get('access_token')
+        user_token = request.COOKIES.get('access_token', None)
+        if user_token:
+            response = Response()
+            response.delete_cookie('access_token')
+            response.data = {
+                'message': 'Logged out successfully.'
+            }
+            return response
+        response = Response()
+        response.data = {
+            'message': 'User is already logged out.'
+        }
+        return response
 
+
+def get_user_from_request(request):
+    user_token = request.headers.get('Authorization', '').split(' ')[-1]
+
+    if not user_token:
+        raise AuthenticationFailed('Unauthenticated user.')
+
+    payload = jwt.decode(user_token, settings.SECRET_KEY, algorithms=['HS256'])
+
+    user = User.objects.filter(id=payload['user_id']).first()
+    return user
+
+
+class UserViewAPI(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request, format=None):
+        user_token = request.headers.get('Authorization', '').split(' ')[-1]
         if not user_token:
             raise AuthenticationFailed('Unauthenticated user.')
 
         payload = jwt.decode(user_token, settings.SECRET_KEY, algorithms=['HS256'])
 
         user = User.objects.filter(id=payload['user_id']).first()
+<<<<<<< HEAD
         return Response({'data': user.username})
+=======
+
+        return Response({'data': user.username, 'status': 'success'})
+>>>>>>> 938c4062a46880390d5b984eb2648440e37e633a
 
 
 class LogoutAPIView(APIView):
@@ -117,11 +156,11 @@ class GetCSRFToken(APIView):
 
 class UserTravelsAPIView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
 
     def get(self, request, format=None):
         try:
-            user = self.request.user
-            user = User.objects.get(id=user.id)
+            user = get_user_from_request(request)
             user_profile = UserProfile.objects.get(user=user)
             travels = Travel.objects.filter(
                 Q(travelers__user=user_profile)
@@ -154,11 +193,11 @@ class UserTravelsAPIView(APIView):
 
 class UserActiveTravelAPIView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
 
     def get(self, request, format=None):
         try:
-            user = self.request.user
-            user = User.objects.get(id=user.id)
+            user = get_user_from_request(request)
             user_profile = UserProfile.objects.get(user=user)
             travel = Travel.objects.get(
                 ~Q(situation="3") & Q(travelers__user=user_profile) & ~Q(situation="0")
@@ -188,12 +227,12 @@ class UserActiveTravelAPIView(APIView):
 
 class CreateTravelAPIView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
 
     def post(self, request, format=None):
         try:
             data = self.request.data
-            user = self.request.user
-            user = User.objects.get(id=user.id)
+            user = get_user_from_request(request)
             user_profile = UserProfile.objects.get(user=user)
             isDriver = data['is_driver']
             origin = ImportantLocation.objects.get(id=data['origin_id'])
@@ -231,11 +270,11 @@ class CheckAuthenticatedAPIView(APIView):
 
 class JoinTravelAPIView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
 
     def post(self, request, format=None):
         try:
-            user = self.request.user
-            user = User.objects.get(id=user.id)
+            user = get_user_from_request(request)
             user_profile = UserProfile.objects.get(user=user)
             data = self.request.data
             travel_id = data['travel_id']
@@ -256,11 +295,11 @@ class JoinTravelAPIView(APIView):
 
 class StartTravelAPIView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
 
     def put(self, request, format=None):
         try:
-            user = self.request.user
-            user = User.objects.get(id=user.id)
+            user = get_user_from_request(request)
             user_profile = UserProfile.objects.get(user=user)
             travel = Travel.objects.get(
                 Q(situation=1) & Q(made_by=user_profile)
@@ -275,11 +314,11 @@ class StartTravelAPIView(APIView):
 
 class SetPriceAPIView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
 
     def post(self, request, format=None):
         try:
-            user = self.request.user
-            user = User.objects.get(id=user.id)
+            user = get_user_from_request(request)
             user_profile = UserProfile.objects.get(user=user)
             data = self.request.data
             price = int(data['price'])
@@ -322,11 +361,11 @@ class SetPriceAPIView(APIView):
 
 class FinishTravelAPIView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
 
     def put(self, request, format=None):
         try:
-            user = self.request.user
-            user = User.objects.get(id=user.id)
+            user = get_user_from_request(request)
             user_profile = UserProfile.objects.get(user=user)
             travel = Travel.objects.get(
                 Q(situation=2) & Q(made_by=user_profile)
@@ -341,11 +380,11 @@ class FinishTravelAPIView(APIView):
 
 class ChangeToCashAPIView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
 
     def put(self, request, format=None):
         try:
-            user = self.request.user
-            user = User.objects.get(id=user.id)
+            user = get_user_from_request(request)
             user_profile = UserProfile.objects.get(user=user)
             data = self.request.data
             traveler_id = data['traveler_id']
@@ -363,11 +402,11 @@ class ChangeToCashAPIView(APIView):
 
 class ChangeToCreditAPIView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
 
     def put(self, request, format=None):
         try:
-            user = self.request.user
-            user = User.objects.get(id=user.id)
+            user = get_user_from_request(request)
             user_profile = UserProfile.objects.get(user=user)
             data = self.request.data
             traveler_id = data['traveler_id']
@@ -386,11 +425,11 @@ class ChangeToCreditAPIView(APIView):
 
 class CreditorChecksAPIView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
 
     def get(self, request, format=None):
         try:
-            user = self.request.user
-            user = User.objects.get(id=user.id)
+            user = get_user_from_request(request)
             user_profile = UserProfile.objects.get(user=user)
             paychecks = Paycheck.objects.filter(
                 Q(source_travel__travel__made_by=user_profile)
@@ -454,11 +493,11 @@ class CityLocationsAPIView(APIView):
 
 class DeleteTravelAPIView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
 
     def delete(self, request, format=None):
         try:
-            user = self.request.user
-            user = User.objects.get(id=user.id)
+            user = get_user_from_request(request)
             user_profile = UserProfile.objects.get(user=user)
             active_travel = Travel.objects.get(
                 Q(situation="1") & Q(made_by=user_profile)
@@ -475,6 +514,7 @@ class DeleteTravelAPIView(APIView):
 
 class SearchTravelsAPIView(APIView):
     permission_classes = (permissions.AllowAny,)
+    authentication_classes = (TokenAuthentication,)
 
     def get(self, request, format=None):
         try:
