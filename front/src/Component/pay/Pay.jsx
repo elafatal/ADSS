@@ -113,11 +113,8 @@ const Pay= () => {
   
   
       {/* <div className="container1">
-        
       </div> */}
-  
     </div>
-   
     </div>
    
   </>
