@@ -10,6 +10,7 @@ const Newtrips = ()=> {
   const [loc, setLoc] = useState([]);
   const [is_driver , setIs_driver] = useState(0);
 
+
   const handlecity = async () => {
     try {
       const response = await axios.get('http://127.0.0.1:8000/travels/all_cities/');
@@ -19,6 +20,7 @@ const Newtrips = ()=> {
 
     } catch (error) {
       console.error('Error fetching cities:', error);
+
     }
   };
    useEffect(() => {
@@ -114,6 +116,7 @@ const Newtrips = ()=> {
         console.log(values);
       };
 
+
       const getloc = async(e) => {
         
         const selectedCityId = e.target.value;
@@ -122,6 +125,7 @@ const Newtrips = ()=> {
         console.log(response);
        }
 
+
     return(
 
         <div className="app" >
@@ -129,8 +133,10 @@ const Newtrips = ()=> {
       <form onSubmit={handleSubmit}>
         <h1><i className="fa-solid fa-car-side"></i> ایجاد سفر جدید </h1>
 
+
         {inputs.map((input) => ( (input.type === "select" ) ? <select name={input.name} onChange={getloc} className="formInput">
           <option>{input.placeholder}</option>{loc.map((s) => <option  value={s.id} >{s.name}</option>)}
+
            </select> :
         (input.type === "loc" ) ? (<select name={input.name} onChange={onChange} className="formInput">
           <option>{input.placeholder}</option>{r.data.map((sm) => <option value={loc.name} >{sm.name}</option>)} </select>) :

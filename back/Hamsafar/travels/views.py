@@ -18,13 +18,6 @@ from .utils import generate_access_token
 from Hamsafar import settings
 
 
-# Create your views here.
-<<<<<<< HEAD
-from Hamsafar import settings
-=======
->>>>>>> 938c4062a46880390d5b984eb2648440e37e633a
-
-
 class SignUpAPIView(APIView):
     permission_classes = (permissions.AllowAny,)
     authentication_classes = (TokenAuthentication,)
@@ -85,26 +78,6 @@ class LoginAPIView(APIView):
             return Response({'error': 'Something went wrong when logging in', 'status': 'fail'})
 
 
-class UserLogoutViewAPI(APIView):
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (permissions.AllowAny,)
-
-    def get(self, request):
-        user_token = request.COOKIES.get('access_token', None)
-        if user_token:
-            response = Response()
-            response.delete_cookie('access_token')
-            response.data = {
-                'message': 'Logged out successfully.'
-            }
-            return response
-        response = Response()
-        response.data = {
-            'message': 'User is already logged out.'
-        }
-        return response
-
-
 def get_user_from_request(request):
     user_token = request.headers.get('Authorization', '').split(' ')[-1]
 
@@ -129,21 +102,11 @@ class UserViewAPI(APIView):
         payload = jwt.decode(user_token, settings.SECRET_KEY, algorithms=['HS256'])
 
         user = User.objects.filter(id=payload['user_id']).first()
-<<<<<<< HEAD
-        return Response({'data': user.username})
-=======
 
         return Response({'data': user.username, 'status': 'success'})
->>>>>>> 938c4062a46880390d5b984eb2648440e37e633a
 
 
-class LogoutAPIView(APIView):
-    def post(self, request, format=None):
-        try:
-            auth.logout(request)
-            return Response({'message': 'Logged out', 'status': 'success'})
-        except:
-            return Response({'error': 'Something went wrong when logging out', 'status': 'fail'})
+# class LogoutAPIView(APIView):
 
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
@@ -171,7 +134,7 @@ class UserTravelsAPIView(APIView):
                     'id': x,
                     'name': y + " " + z,
                 } for x, y, z in
-                    travel.travelers.values_list('user_id', 'user__user__first_name', 'user__user__last_name')]
+                    travel.travelers.values_list('user__user__id', 'user__user__first_name', 'user__user__last_name')]
                 travel_data.append({
                     'id': travel.id,
                     'origin_city': travel.origin.city.name,
@@ -207,7 +170,8 @@ class UserActiveTravelAPIView(APIView):
             travelers_data = [{
                 'id': x,
                 'name': y + " " + z,
-            } for x, y, z in travel.travelers.values_list('user_id', 'user__user__first_name', 'user__user__last_name')]
+            } for x, y, z in
+                travel.travelers.values_list('user__user__id', 'user__user__first_name', 'user__user__last_name')]
             travel_data = {
                 'id': travel.id,
                 'origin_city': travel.origin.city.name,
@@ -453,6 +417,36 @@ class CreditorChecksAPIView(APIView):
             return Response({'error': 'an error occurred', 'status': 'fail'})
 
 
+class DebtorChecksAPIView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
+
+    def get(self, request, format=None):
+        try:
+            user = get_user_from_request(request)
+            user_profile = UserProfile.objects.get(user=user)
+            paychecks = Paycheck.objects.filter(
+                Q(source_travel__user=user_profile)
+            )
+
+            data = []
+            for paycheck in paychecks:
+                data.append({
+                    'card_number': paycheck.card_number,
+                    'price': paycheck.price,
+                    'pay_in_cash': paycheck.pay_in_cash,
+                    'user': UserProfile.objects.get(
+                        Q(travels_made_by_user__travelers__paycheck_id=paycheck.id)
+                    ).user.first_name + UserProfile.objects.get(
+                        Q(travels_made_by_user__travelers__paycheck_id=paycheck.id)
+                    ).user.last_name,
+                })
+            return Response({'data': data, 'status': 'success'})
+        except Exception as e:
+            print(e)
+            return Response({'error': 'an error occurred', 'status': 'fail'})
+
+
 class AllCitiesAPIView(APIView):
     permission_classes = (permissions.AllowAny,)
 
@@ -476,8 +470,7 @@ class CityLocationsAPIView(APIView):
     def get(self, request, format=None):
         try:
             data = self.request.data
-            print(data)
-            city_id = data['city_id']
+            city_id = request.query_params.get('city_id', None)
             locations = ImportantLocation.objects.filter(city_id=city_id)
             data = []
             for location in locations:
@@ -544,7 +537,7 @@ class SearchTravelsAPIView(APIView):
                     'id': x,
                     'name': y + " " + z,
                 } for x, y, z in
-                    travel.travelers.values_list('user_id', 'user__user__first_name', 'user__user__last_name')]
+                    travel.travelers.values_list('user__user__id', 'user__user__first_name', 'user__user__last_name')]
                 travel_data.append({
                     'id': travel.id,
                     'origin_city': travel.origin.city.name,
@@ -562,3 +555,163 @@ class SearchTravelsAPIView(APIView):
         except Exception as e:
             print(e)
             return Response({'error': 'an error occurred'})
+
+
+class AdminLoginAPIView(APIView):
+    permission_classes = (permissions.AllowAny,)
+    authentication_classes = (TokenAuthentication,)
+
+    def post(self, request, format=None):
+        data = self.request.data
+
+        username = data['username']
+        password = data['password']
+
+        try:
+            user = auth.authenticate(username=username, password=password)
+
+            if user is not None and User.objects.get(username=username).is_superuser:
+                user_access_token = generate_access_token(user)
+                response = Response()
+                response.data = {
+                    'access_token': user_access_token
+                }
+                return response
+
+            else:
+                return Response({'error': 'Error authenticating', 'status': 'fail'})
+        except Exception as e:
+            print(e)
+            return Response({'error': 'Something went wrong when logging in', 'status': 'fail'})
+
+
+class AllUserAPIView(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request, format=None):
+        try:
+            all_users = UserProfile.objects.all()
+            data = []
+            for user in all_users:
+                data.append({
+                    'student_number': user.student_number,
+                    'name': user.user.first_name + " " + user.user.last_name,
+                    'id': user.user.id
+                })
+            return Response({'data': data, 'status': 'success'})
+        except Exception as e:
+            print(e)
+            return Response({'error': 'Something went wrong when logging in', 'status': 'fail'})
+
+
+class AllUserTravelsAPIView(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request, format=None):
+        try:
+            data = self.request.data
+            user_id = data['user_id']
+            user = User.objects.get(id=user_id)
+            user = UserProfile.objects.get(user=user)
+            print("1")
+            travels = Travel.objects.filter(travelers__user=user)
+            print("2")
+            for travel in travels:
+                travelers_data = [{
+                    'id': x,
+                    'name': y + " " + z,
+                } for x, y, z in
+                    travel.travelers.values_list('user__user__id', 'user__user__first_name', 'user__user__last_name')]
+                print("3")
+                travel_data = {
+                    'id': travel.id,
+                    'origin_city': travel.origin.city.name,
+                    'origin_location': travel.origin.name,
+                    'destination_city': travel.destination.city.name,
+                    'destination_location': travel.destination.name,
+                    'situation': travel.situation.title(),
+                    'travelers': travelers_data,
+                    'time': "" if travel.time is None else travel.time.strftime("%m/%d/%Y, %H:%M:%S"),
+                }
+
+            return Response({'data': travel_data, 'status': 'success'})
+        except Exception as e:
+            print(e)
+            return Response({'error': 'an error occurred', 'status': 'fail'})
+
+
+class OverRideDeleteTravelAPIView(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def delete(self, request, format=None):
+        try:
+            data = self.request.data
+            travel = Travel.objects.get(id=data['travel_id'])
+            travel.situation = "0"
+            travel.save()
+            return Response({'message': 'deleted successfully', 'status': 'success'})
+        except Exception as e:
+            print(e)
+            return Response({'error': 'an error occurred', 'status': 'fail'})
+
+
+class AllUserCreditorsAPIView(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request, format=None):
+        try:
+            data = self.request.data
+            user_id = data['user_id']
+            user = User.objects.get(id=user_id)
+            user_profile = UserProfile.objects.get(user=user)
+            paychecks = Paycheck.objects.filter(
+                Q(source_travel__travel__made_by=user_profile)
+            )
+
+            data = []
+            for paycheck in paychecks:
+                data.append({
+                    'card_number': paycheck.card_number,
+                    'price': paycheck.price,
+                    'pay_in_cash': paycheck.pay_in_cash,
+                    'user': UserProfile.objects.get(
+                        Q(travelings__paycheck_id=paycheck.id)
+                    ).user.first_name + UserProfile.objects.get(
+                        Q(travelings__paycheck_id=paycheck.id)
+                    ).user.last_name,
+                })
+            return Response({'data': data, 'status': 'success'})
+        except Exception as e:
+            print(e)
+            return Response({'error': 'an error occurred', 'status': 'fail'})
+
+
+class AllUserDebtorsAPIView(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request, format=None):
+        try:
+            data = self.request.data
+            user_id = data['user_id']
+            user = User.objects.get(id=user_id)
+            user_profile = UserProfile.objects.get(user=user)
+            paychecks = Paycheck.objects.filter(
+                Q(source_travel__user=user_profile)
+            )
+
+            data = []
+            for paycheck in paychecks:
+                data.append({
+                    'card_number': paycheck.card_number,
+                    'price': paycheck.price,
+                    'pay_in_cash': paycheck.pay_in_cash,
+                    'user': UserProfile.objects.get(
+                        Q(travels_made_by_user__travelers__paycheck_id=paycheck.id)
+                    ).user.first_name + UserProfile.objects.get(
+                        Q(travels_made_by_user__travelers__paycheck_id=paycheck.id)
+                    ).user.last_name,
+                })
+            return Response({'data': data, 'status': 'success'})
+        except Exception as e:
+            print(e)
+            return Response({'error': 'an error occurred', 'status': 'fail'})

@@ -1,6 +1,8 @@
 ## Hamsafar Yab
 ## Endpoints
 
+# `/travel`
+
 ### `POST /register/`
 
 Sign up an account.
@@ -291,6 +293,69 @@ finish the ongoing travel
 
 ```
 
+### `GET /creditors/`
+
+Get now user's creditor checks
+
+
+**Response:**
+```json
+{
+    "data": [
+        {
+            "card_number": "6037997404365943",
+            "price": 16000,
+            "pay_in_cash": false,
+            "user": "shali shala"
+        },
+        {
+            "card_number": "6037997404365943",
+            "price": 16000,
+            "pay_in_cash": false,
+            "user": "ali agha"
+        },
+        {
+            "card_number": "6037997404365943",
+            "price": 16000,
+            "pay_in_cash": false,
+            "user": "ghali ghagha"
+        }
+    ],
+    "status": "success"
+}
+```
+### `GET /debtors/`
+
+Get now user's debtor checks
+
+
+**Response:**
+```json
+{
+    "data": [
+        {
+            "card_number": "6037997404365943",
+            "price": 16000,
+            "pay_in_cash": false,
+            "user": "shali shala"
+        },
+        {
+            "card_number": "6037997404365943",
+            "price": 16000,
+            "pay_in_cash": false,
+            "user": "ali agha"
+        },
+        {
+            "card_number": "6037997404365943",
+            "price": 16000,
+            "pay_in_cash": false,
+            "user": "ghali ghagha"
+        }
+    ],
+    "status": "success"
+}
+```
+
 
 
 ### `PUT /change_to_cash/`
@@ -428,3 +493,174 @@ Get every location of a city
     "status": "success"
 }
 ```
+
+
+# `/travel/admin`
+
+### `POST /login/`
+
+login as an admin.
+
+**Parameters:**
+- username
+- password
+
+
+**Response:**
+```json
+{
+"message": "User authenticated",
+ "status": "success"
+ }
+
+```
+
+### `get /users/`
+
+Get all users.
+
+
+**Response:**
+```json
+{
+    "data": [
+        {
+            "student_number": "40030112074",
+            "name": "ali agha ",
+            "id": 4
+        },
+        {
+            "student_number": "40030112075",
+            "name": "sponge bob",
+            "id": 5
+        },
+        {
+            "student_number": "40030112053",
+            "name": "pineapple underthesea",
+            "id": 6
+        },
+        {
+            "student_number": "40030112071",
+            "name": "parkode manan",
+            "id": 3
+        },
+        
+    ],
+    "status": "success"
+}
+```
+
+### `POST /travels/`
+
+Get all user's travel.
+
+**Parameters:**
+- user_id
+
+
+**Response:**
+```json
+{
+    "data": {
+        "id": 11,
+        "origin_city": "Babol",
+        "origin_location": "dar asli",
+        "destination_city": "Amol",
+        "destination_location": "falake",
+        "situation": "1",
+        "travelers": [
+            {
+                "id": 1,
+                "name": "ali agha "
+            },
+            {
+                "id": 2,
+                "name": "ghali ghagha "
+            },
+            {
+                "id": 6,
+                "name": "pineapple underthesea"
+            },
+            {
+                "id": 3,
+                "name": "parkosde manan"
+            }
+        ],
+        "time": "01/25/2024, 20:58:51"
+    },
+    "status": "success"
+}
+
+```
+
+### `GET /creditors/`
+
+Get given user's creditor checks
+
+**Parameters:**
+- user_id
+
+
+
+**Response:**
+```json
+{
+    "data": [
+        {
+            "card_number": "6037997404365943",
+            "price": 16000,
+            "pay_in_cash": false,
+            "user": "shali shala"
+        },
+        {
+            "card_number": "6037997404365943",
+            "price": 16000,
+            "pay_in_cash": false,
+            "user": "ali agha"
+        },
+        {
+            "card_number": "6037997404365943",
+            "price": 16000,
+            "pay_in_cash": false,
+            "user": "ghali ghagha"
+        }
+    ],
+    "status": "success"
+}
+```
+### `GET /debtors/`
+
+Get given user's debtor checks
+
+**Parameters:**
+- user_id
+
+
+
+**Response:**
+```json
+{
+    "data": [
+        {
+            "card_number": "6037997404365943",
+            "price": 16000,
+            "pay_in_cash": false,
+            "user": "shali shala"
+        },
+        {
+            "card_number": "6037997404365943",
+            "price": 16000,
+            "pay_in_cash": false,
+            "user": "ali agha"
+        },
+        {
+            "card_number": "6037997404365943",
+            "price": 16000,
+            "pay_in_cash": false,
+            "user": "ghali ghagha"
+        }
+    ],
+    "status": "success"
+}
+```
+
