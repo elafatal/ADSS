@@ -58,17 +58,12 @@ const Signup = ()=> {
             required: true,
           },
       ]
-      const csrf = async(e) => {
-        const response = await axios.get('http://127.0.0.1:8000/travels/csrf_cookie/', {
-        withCredentials: true
-        });
-        console.log(response)
-      };
+     
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-        navigate('/start')
-        csrf()
+        navigate('/Start')
+       
         const response = await axios.post('http://127.0.0.1:8000/travels/register/',values);
 
         console.log(response)

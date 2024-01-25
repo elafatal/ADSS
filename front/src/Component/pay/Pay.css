@@ -1,13 +1,35 @@
+.khobe {
+  background: linear-gradient(
+           rgba(255, 255, 255, 0.133),
+           rgba(255, 255, 255, 0.471)
+         ),
+         url("https://wallpaperaccess.com/full/3362848.jpg");
+       background-size: cover;
+       background-position: center; 
+       height: 100vh;
+ 
+}
+
+
 .divpay{
   display: flex;
   align-items: center;
   text-align: center;
   justify-content: center;
   margin: 0;
-  height: 100vh;
- 
+  height: 80vh;
+      
   
 }
+.divbut{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+ 
+}
+
+
 .read-more{
   display: inline-block;
   padding: 10px 20px;
@@ -16,7 +38,7 @@
   font-size: 19px;
   text-decoration: none;
   border-radius: 15px;
-  margin-top: 15px;
+  margin-top: 25px;
   transition: 0.3s ease-in-out;
   width: 170px;
 
@@ -28,62 +50,115 @@
   background-color: #8e97a6;
   border: 1px solid #1b2430;
 }
-.container1 {
-position: absolute;
-top: 50%;
-left: 50%;
-max-height: 600px;
-overflow-y: scroll;
--webkit-transform: translate(-50%, -50%);
-transform: translate(-50%, -50%);
+ .table-data {
+  
+  display: flex;
+  flex-wrap: wrap;
+  grid-gap: 24px;
+  margin-top: 40px;
+  width: 70%;
+  color: var(--dark);
+}
+.table-data > div {
+  border-radius: 20px;
+  background: var(--light);
+
+  padding: 24px;
+  overflow-x: auto;
+}
+ .table-data .head {
+  display: flex;
+  align-items: center;
+  grid-gap: 16px;
+  margin-bottom: 24px;
+}
+ .table-data .head h3 {
+  margin-right: auto;
+  font-size: 24px;
+  font-weight: 600;
+}
+ .table-data .head .bx {
+  cursor: pointer;
 }
 
-table {
-width: 800px;
-height: 60px;
-border-collapse: collapse;
-overflow: hidden;
-box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+ .table-data .order {
+  flex-grow: 1;
+  flex-basis: 500px;
+}
+.table-data .order table {
+  width: 100%;
+  border-collapse: collapse;
+}
+ .table-data .order table th {
+  padding-bottom: 12px;
+  font-size: 18px;
+  text-align: center;
+  border-bottom: 1px solid var(--grey);
+}
+.table-data .order table td {
+  padding: 16px 0;
+}
+ .table-data .order table tr td:first-child {
+  display: flex;
+  align-items: center;
+  grid-gap: 12px;
+  padding-left: 6px;
 }
 
-th,
-td {
-padding: 15px;
-background-color: #9991dfcb;
-color: #160229;
-font-weight: bold;
+ .table-data .order table tbody tr:hover {
+  background: var(--grey);
+}
+ .table-data .order table tr td .status {
+  font-size: 10px;
+  padding: 6px 16px;
+  color: var(--light);
+  border-radius: 20px;
+  font-weight: 700;
+}
+ .table-data .order table tr td .status.completed {
+  background: var(--blue);
+}
+ .table-data .order table tr td .status.process {
+  background: var(--yellow);
+}
+ .table-data .order table tr td .status.pending {
+  background: var(--orange);
 }
 
-th {
-text-align: left;
-}
 
-thead th {
-align-items: center;
-text-align: center;
-justify-content: center;
-background-color: #55608f;
+ .table-data .todo {
+  flex-grow: 1;
+  flex-basis: 300px;
 }
+.table-data .todo .todo-list {
+  width: 100%;
+}
+ .table-data .todo .todo-list li {
+  width: 100%;
+  margin-bottom: 16px;
+  background: var(--grey);
+  border-radius: 10px;
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+ .table-data .todo .todo-list li .bx {
+  cursor: pointer;
+}
+ .table-data .todo .todo-list li.completed {
+  border-left: 10px solid var(--blue);
+}
+ .table-data .todo .todo-list li.not-completed {
+  border-left: 10px solid var(--orange);
+}
+.table-data .todo .todo-list li:last-child {
+  margin-bottom: 0;
+}
+/* MAIN */
+/* CONTENT */
 
-tbody tr:hover {
-background-color: rgba(255, 255, 255, 0.3);
-transition: 0.1s ease-in-out;
-}
 
-tbody td {
-position: relative;
-}
-
-tbody td:hover:before {
-content: "";
-position: absolute;
-left: 0;
-right: 0;
-top: -9999px;
-bottom: -9999px;
-background-color: rgba(255, 255, 255, 0.2);
-z-index: -1;
-}
 
 button:hover{
   color: rgb(61, 6, 117);
@@ -95,51 +170,12 @@ button:hover{
 /* Responsive styles */
 @media screen and (max-width: 768px) {
   
-  table {
-    width: 300px;
+   .table-data .head {
+    min-width: 420px;
+  }
+  .table-data .order table {
+    min-width: 420px;
   }
   
-  tr {
-    display: block;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-  }
-  thead{
-    display: inline;
-  }
-  tr td {
-    text-align: center;
-    display: block;
-    width: 100%;
-    position: relative;
-    white-space: pre-wrap;
-    border: none;
-    border-bottom: 1px solid #ddd;
-  }
-      
-  tr td:nth-child(2) {
-    color: white;
-    padding: 8px;
-    border-radius: 5px 5px 0 0;
-  }
-  tr td:not(:nth-child(2))::before {
-    content: attr(name);
-    position: absolute;
-    top: 8px;
-    left: 0;
-    font-weight: bold;
-    text-align: left;
-    width: 100%;
-    padding: 0 8px;
-    
-  }
-
-  button:hover{
-    color: rgb(61, 6, 117);
-    background-color: #d2c7fce3;
-    border: 1px solid rgb(61, 6, 117);
-    transition: 0.3s ease-in-out;
-  }
  }
  

@@ -2,6 +2,7 @@ import {  useState } from 'react'
 import FormInput from '../start/FormInput'
 import "../start/profile.css"
 import {useNavigate} from "react-router-dom"
+import axios from 'axios'
 
 const Info = ()=> {
   const navigate=useNavigate();
@@ -10,9 +11,7 @@ const Info = ()=> {
     stunumber: "",
     unilocatin: "",
     homelocation: "",
-    phonenumber: "",
-    username: "",
-   
+    phonenumber: ""
   });
 
 
@@ -21,7 +20,7 @@ const Info = ()=> {
             id: 1,
             name: "fullname",
             type: "text",
-            placeholder: "نام و نام خانوادگی",
+            placeholder: "نام   ",
             errorMessage:
               "اسم شما باید بین 3 تا 16 حرف باشد و شامل کاراکترهای خاص نباشد",
             label: "full name",
@@ -30,6 +29,18 @@ const Info = ()=> {
           },
           {
             id: 2,
+            name: "fullname",
+            type: "text",
+            placeholder: "نام خانوادگی",
+            errorMessage:
+              "اسم شما باید بین 3 تا 16 حرف باشد و شامل کاراکترهای خاص نباشد",
+            label: "full name",
+            pattern: "^[a-z A-z]{3,16}$",
+            required: true,
+          },
+          
+          {
+            id: 3,
             name: "stunumber",
             type: "text",
             placeholder: "شماره دانشجویی",
@@ -40,7 +51,7 @@ const Info = ()=> {
             required: true,
           },
           {
-            id: 3,
+            id: 4,
             name: "phonenumber",
             type: "text",
             placeholder: "شماره موبایل",
@@ -48,21 +59,16 @@ const Info = ()=> {
             label: "phone number",
             pattern: "^[0-9]{11}$",
             required: true,
-          },
-          {
-            id: 4,
-            name: "username",
-            type: "text",
-            placeholder: "نام کاربری (اختیاری)",
-            errorMessage:
-              "این نام کاربری قبلاً گرفته شده است",
-            label: "Username"
-          },
+          }
           
       ]
 
-    const handleSubmit = (e) => {
+    const handleSubmit =async (e) => {
         e.preventDefault();
+        const response = await axios.post('http://127.0.0.1:8000/travels/login/',values);
+        if (response.data.status != "fail") {
+          navigate('/Start')
+        }
       };
 
     const onChange = (e) => {

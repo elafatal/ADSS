@@ -72,40 +72,54 @@ const Pay= () => {
   }
   return (
     <>
-      <button onClick={()=>{navigate('/Payforme')}}  className="read-more">  طلبکاری های شما</button>
-    <div className="divpay">
-    {/* <a className="active" href="Home"><i className="fa-solid fa-house"></i> Home</a> */}
-    <div className="container1">
-      <table {...getTableProps()}>
-        <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps()}>
-                  {column.render("Header")}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {rows.map((row,index) => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => ( cell.value===false ?
-                 <td><button onClick={()=>{handleClick(index)}} className="bi" style={{margin:'17px', background:' rgba(102, 51, 153, 0.5)'}}> تصویه </button></td>:
-                  <td {...cell.getCellProps()}> {cell.render("Cell")} </td>
+    <div className="khobe">
+      <div className="divbut"></div>
+      <div className="divpay">
+      <div className="table-data">
+      <div className="order">
+                <div className="head">
+                  <h3>بدهکاری های شما</h3>
+                  <i className='bx bx-search' ></i>
+                  <button onClick={()=>{navigate('/Payforme')}}  className="read-more">  طلبکاری های شما</button>
+                </div>
+                <table {...getTableProps()}>
+          <thead>
+            {headerGroups.map((headerGroup) => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => (
+                  <th {...column.getHeaderProps()}>
+                    {column.render("Header")}
+                  </th>
                 ))}
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
+            ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {rows.map((row,index) => {
+              prepareRow(row);
+              return (
+                <tr {...row.getRowProps()}>
+                  {row.cells.map((cell) => ( cell.value===false ?
+                   <td><button onClick={()=>{handleClick(index)}} className="bi" style={{margin:'17px', background:' rgba(102, 51, 153, 0.5)'}}> تصویه </button></td>:
+                    <td {...cell.getCellProps()}> {cell.render("Cell")} </td>
+                  ))}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      </div>
+  
+  
+      {/* <div className="container1">
+        
+      </div> */}
+  
     </div>
-
-  </div>
- 
+   
+    </div>
+   
   </>
   );
 }

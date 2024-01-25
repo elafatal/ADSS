@@ -1,13 +1,13 @@
 body{
    /* background-image: url('https://wallpaperaccess.com/full/3362848.jpg');
     background-size: cover; */
-    background: linear-gradient(
+    /* background: linear-gradient(
            rgba(255, 255, 255, 0.133),
            rgba(255, 255, 255, 0.471)
          ),
          url("https://wallpaperaccess.com/full/3362848.jpg");
        background-size: cover;
-       background-position: center;
+       background-position: center; */
        background-color: rgba(13,15,28,255);
    }
    nav{

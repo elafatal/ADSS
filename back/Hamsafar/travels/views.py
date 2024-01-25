@@ -19,7 +19,7 @@ from .utils import generate_access_token
 
 
 # Create your views here.
-from ..Hamsafar import settings
+from Hamsafar import settings
 
 
 class SignUpAPIView(APIView):
@@ -94,7 +94,7 @@ class UserViewAPI(APIView):
 
         payload = jwt.decode(user_token, settings.SECRET_KEY, algorithms=['HS256'])
 
-        user = User.objects.filter(user_id=payload['user_id']).first()
+        user = User.objects.filter(id=payload['user_id']).first()
         return Response({'data': user.username})
 
 
@@ -437,6 +437,7 @@ class CityLocationsAPIView(APIView):
     def get(self, request, format=None):
         try:
             data = self.request.data
+            print(data)
             city_id = data['city_id']
             locations = ImportantLocation.objects.filter(city_id=city_id)
             data = []

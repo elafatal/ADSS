@@ -67,11 +67,11 @@ const ExistingTrips = () => {
     return (
         <>
         
-      <div className="yoho">
+      <div  className="yoho">
         
       <ul>
         {response.data.map((trips, index) => (
-          <li key={index}><div className="container about">
+          <li style={{display : "flex" , margin : "auto"}} key={index}><div className="container about">
           <div className="card-container">
               <div className="inner-card">
                   <div className="header-bg"></div>

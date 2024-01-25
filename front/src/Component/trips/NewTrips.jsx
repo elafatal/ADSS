@@ -2,32 +2,29 @@ import {  useState } from 'react'
 import FormInput from '../start/FormInput'
 import "../start/profile.css"
 import {useNavigate} from "react-router-dom"
-import axios from 'axios' 
+import axios from 'axios'
 import { useEffect } from 'react'
 
 const Newtrips = ()=> {
-  const navigate=useNavigate();
-  
-//   const handlecity = async()=>{
-//     const response = await axios.get('https://reqres.in/api/login');
-//     console.log(response)
-//   }
-    const response={
-        "data": [
-            {
-                "name": "Amol",
-                "id": 1
-            },
-            {
-                "name": "Babol",
-                "id": 2
-            },
-            {
-                "name": "Sari",
-                "id": 3
-            }
-        ]
+  const navigate = useNavigate();
+  const [loc, setLoc] = useState([]);
+  const [is_driver , setIs_driver] = useState(0);
+
+  const handlecity = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/travels/all_cities/');
+      let data = [...loc]
+        data = response.data.data
+      setLoc(data);
+
+    } catch (error) {
+      console.error('Error fetching cities:', error);
     }
+  };
+   useEffect(() => {
+    handlecity();
+    console.log(loc);
+  }, []); 
 
     const r={
       "data": [
@@ -52,18 +49,8 @@ const Newtrips = ()=> {
 
 
       const inputs = [
-        {
-            id: 1,
-            name: "cardnumber",
-            type: "text",
-            placeholder: "شماره کارت بانکی",
-            errorMessage:
-              "شماره کارت باید 16 رقم بدون کاراکتر اضافی باشد",
-            pattern: "^[0-9]{16}$",
-            required: true
-          },
           {
-            id: 2,
+            id: 1,
             name: "scity",
             type: "select",
             placeholder: "شهر مبدا",
@@ -72,7 +59,7 @@ const Newtrips = ()=> {
             required: true
           },
           {
-            id: 3,
+            id: 2,
             name: "startinglocatin",
             type: "loc",
             placeholder: "مبدا دقیقتان را انتخاب کنید",
@@ -81,7 +68,7 @@ const Newtrips = ()=> {
             required: true,
           },
           {
-            id: 4,
+            id: 3,
             name: "dcity",
             type: "select",
             placeholder: "شهر مقصد",
@@ -90,7 +77,7 @@ const Newtrips = ()=> {
             required: true
           },
           {
-            id: 5,
+            id: 4,
             name: "destination",
             type: "loc",
             placeholder: "مقصد دقیقتان را انتخاب کنید",
@@ -99,7 +86,7 @@ const Newtrips = ()=> {
             required: true,
           },
           {
-            id: 6,
+            id: 5,
             name: "time",
             type: "time",
             placeholder: "time",
@@ -107,13 +94,14 @@ const Newtrips = ()=> {
               "time is empty!",
             required: true,
           },
-          
-         
+
+
       ]
 
     const handleSubmit = (e) => {
         e.preventDefault();
         navigate('/Start')
+        setIs_driver(1)
       };
 
       useEffect(() => {
@@ -126,16 +114,26 @@ const Newtrips = ()=> {
         console.log(values);
       };
 
-   
+      const getloc = async(e) => {
+        
+        const selectedCityId = e.target.value;
+        const tok = { "city_id" : selectedCityId}
+        const response = await axios.get('http://127.0.0.1:8000/travels/city_locations/',tok);
+        console.log(response);
+       }
+
     return(
+
         <div className="app" >
+
       <form onSubmit={handleSubmit}>
-        <h1><i class="fa-solid fa-car-side"></i> ایجاد سفر جدید </h1>
-        {inputs.map((input) => ( (input.type === "select" ) ? <select name={input.name} onChange={onChange} className="formInput">
-          <option>{input.placeholder}</option>{response.data.map((s) => <option  value={values[response.data.name]} >{s.name}</option>)}
-           </select> : 
+        <h1><i className="fa-solid fa-car-side"></i> ایجاد سفر جدید </h1>
+
+        {inputs.map((input) => ( (input.type === "select" ) ? <select name={input.name} onChange={getloc} className="formInput">
+          <option>{input.placeholder}</option>{loc.map((s) => <option  value={s.id} >{s.name}</option>)}
+           </select> :
         (input.type === "loc" ) ? (<select name={input.name} onChange={onChange} className="formInput">
-          <option>{input.placeholder}</option>{r.data.map((sm) => <option value={response.data.name} >{sm.name}</option>)} </select>) : 
+          <option>{input.placeholder}</option>{r.data.map((sm) => <option value={loc.name} >{sm.name}</option>)} </select>) :
           <FormInput
             key={input.id}
             {...input}

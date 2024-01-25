@@ -11,7 +11,8 @@ import Payforme from './Component/pay/Payforme'
 import About from './Component/about/About'
 import ExistingTrips from './Component/eTrips/ExistingTrips'
 import SearchTrips from './Component/eTrips/SearchTrips'
-
+import MyTrips from './Component/eTrips/Mytrips'
+import Admin from './Component/admin/Admin'
 
 
 
@@ -25,11 +26,13 @@ function App(){
                 <Route path='/signup' element={<Signup/>} />
                 <Route path='/info' element={<Info/>} />
                 <Route path='/newtrip' element={<Newtrips/>} />
+                <Route path='/mytrip' element={<MyTrips/>} />
                 <Route path='/searshTrips' element={<SearchTrips/>} />
                 <Route path='/existtrips' element={<ExistingTrips/>} />
                 <Route path='/pay' element={<Pay/>} />
                 <Route path='/payforme' element={<Payforme/>} />
                 <Route path='/about' element={<About/>} />
+                <Route path='/admin' element={<Admin/>} />
                 
                 
             </Routes>

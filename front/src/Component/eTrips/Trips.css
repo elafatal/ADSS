@@ -8,10 +8,23 @@
 }
 body{
    
-    display: flex;
+    /* display: flex; */
     justify-content: center;
     align-items: center;
 
+}
+
+.yoho {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(
+        rgba(255, 255, 255, 0.133),
+        rgba(255, 255, 255, 0.471)
+      ),
+      url("https://wallpaperaccess.com/full/3362848.jpg");
+    background-size: cover;
+    background-position: center;
 }
 
 

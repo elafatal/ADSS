@@ -20,7 +20,7 @@
 }
 .aboutheading h1{
     font-size: 50px;
-    color: #1b2430;
+    color: #987bcf;
     margin-bottom: 20px;
     /* position: relative; */
 }
@@ -32,7 +32,7 @@
     height: 4px;
     display: block;
     margin: 0 auto;
-    background-color: #2a3239ec;} 
+    background-color: #987bcf;} 
 
 .aboutheading p {
     font-size: 23px;
@@ -79,7 +79,7 @@
 }
 
 .about-content h2{
-    color: #2a3239;
+    color: #987bcf;
     /* background-color: #2a3239d1 ; */
     border-radius: 10px 10px 0px 0px;
     padding: 10px;
@@ -90,7 +90,7 @@
 .about-content p{
     font-size: 23px;
     line-height: 1.5;
-    color: #2a3239;
+    color: #c4d6e6;
     font-weight: bold;
     /* background-color:#8e97a6c8 ; */
    

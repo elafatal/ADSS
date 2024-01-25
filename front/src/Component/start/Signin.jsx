@@ -2,18 +2,28 @@ import {  useState } from 'react'
 import FormInput from './FormInput'
 import "./Profile.css"
 import {useNavigate} from "react-router-dom"
+import axios from 'axios'
+import { useEffect } from 'react'
+import Cookies from 'universal-cookie';
+import Alert from '@mui/material/Alert';
+
+
+
+
 
 const Signin = ()=> {
+  
+  let message=false
   const navigate=useNavigate();
     const [values, setValues] = useState({
-        stunumber: "",
+        student_number: "",
         password: "",
       });
 
       const inputs = [
         {
           id: 1,
-          name: "stunumber",
+          name: "student_number",
           type: "text",
           placeholder: "شماره دانشجویی",
           errorMessage:
@@ -35,17 +45,48 @@ const Signin = ()=> {
         },
       ]
 
-    const handleSubmit = (e) => {
+      const handleSubmit =async (e) => {
         e.preventDefault();
-        navigate('/')
+
+        let response = await axios.post('http://127.0.0.1:8000/travels/login/',values);
+        alert("Your message here");
+        if (response.data.status != "fail") {
+          navigate('/Start')
+          setTimeout(() => {
+            navigate('/Start')
+        }, 3000); // Delay of 3 seconds
+        }
+        const cookies = new Cookies();
+        cookies.set('access_token', response.data.access_token);
+        console.log(cookies.get('access_token'));
+
+        response = await axios.get('http://127.0.0.1:8000/travels/user/',{
+  headers: {
+    Authorization: `Bearer ${cookies.get("access_token")}`
+  }
+
+
+});
+        console.log(response)
       };
+      
+      useEffect(() => {
+        console.log(values);
+       }, [values]);
 
     const onChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });
+       
       };
 
     return(
+      <>
+       {/* <Alert style={{marginTop: "30px" , marginBottom : "0px"}} variant="outlined" severity="success">
+          This is an outlined success Alert.
+       </Alert> */}
+       
         <div className="app" >
+       
       <form onSubmit={handleSubmit}>
         <h1>ورود</h1>
         {inputs.map((input) => (
@@ -58,8 +99,11 @@ const Signin = ()=> {
         ))}
         <button type='submit'>ورود</button>
         <button onClick={()=>{navigate('/signup')}}>ثبت نام</button>
+        
       </form>
-    </div>
+    </div></>
+      
+      
     )
 }
 export default Signin
