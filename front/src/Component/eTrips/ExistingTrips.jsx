@@ -1,4 +1,5 @@
 import "../eTrips/Trips.css"
+import {useNavigate} from "react-router-dom"
 import logo from '../eTrips/img/edit.jpg';
 import logo1 from '../eTrips/img/search.png';
 import logo2 from '../eTrips/img/car.jpg';
@@ -18,7 +19,7 @@ const ExistingTrips = () => {
                 "dcity" : "بابل",
                 "scity" : "ساری",
                 "id": 0 ,
-                "travelers" : [{"name":"محمدرضا شجریان"},{"name":"مهنا حسنی"},{"name":"حسین بهزادی"},{"name":" یحیی گلمحمدی "},{"name":"مهنا حسنی"}],
+                "travelers" : [{"name":"محمدرضا شجریان"},{"name":"مهنا حسنی"},{"name":"حسین بهزادی"},{"name":" یحیی گلمحمدی "}],
                 "time" : "15:00"
                 },
                 {
@@ -71,7 +72,7 @@ const ExistingTrips = () => {
         
       <ul>
         {response.data.map((trips, index) => (
-          <li style={{display : "flex" , margin : "auto"}} key={index}><div className="container about">
+          <li key={index}><div className="container about">
           <div className="card-container">
               <div className="inner-card">
                   <div className="header-bg"></div>

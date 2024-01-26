@@ -5,11 +5,11 @@ import {useNavigate} from "react-router-dom"
 import axios from 'axios'
 import { useEffect } from 'react'
 import Alert from '@mui/material/Alert';
+import Cookies from 'universal-cookie';
 
 const Newtrips = ()=> {
   const navigate = useNavigate();
   const [loc, setLoc] = useState([]);
-  const [is_driver , setIs_driver] = useState(0);
   const [locc, setlocc] = useState([]);
   const [locc1, setlocc1] = useState([]);
   
@@ -36,9 +36,9 @@ const Newtrips = ()=> {
   const [values, setValues] = useState({
     is_driver: "0",
     origin_id: "",
-    destination_id: "",
-    time : "",
-    date : ""
+    destination_id: ""
+    // time : "",
+    // date : ""
   });
 
 
@@ -78,42 +78,45 @@ const Newtrips = ()=> {
             errorMessage:
               "destination is empty!",
             required: true,
-          },
-          {
-            id: 5,
-            name: "time",
-            type: "time",
-            placeholder: "time",
-            errorMessage:
-              "time is empty!",
-            required: true,
-          },
-          {
-            id: 6,
-            name: "date",
-            type: "date",
-            placeholder: "time",
-            errorMessage:
-              "time is empty!",
-            required: true,
-          },
+          }
+          // {
+          //   id: 5,
+          //   name: "time",
+          //   type: "time",
+          //   placeholder: "time",
+          //   errorMessage:
+          //     "time is empty!",
+          //   required: true,
+          // },
+          // {
+          //   id: 6,
+          //   name: "date",
+          //   type: "date",
+          //   placeholder: "time",
+          //   errorMessage:
+          //     "time is empty!",
+          //   required: true,
+          // },
 
 
       ]
 
     const handleSubmit =async(e) => {
         e.preventDefault();
-
-        const response = await axios.post('http://127.0.0.1:8000/travels/create/', values);
-        alert("Your message here");
-        if (response.data.status != "fail") {
-          navigate('/Start')
+        const cookies = new Cookies();
+        const response = await axios.post('http://127.0.0.1:8000/travels/create/', values, {
+          headers: {
+            Authorization: `Bearer ${ cookies.get("access_token")}`
+          }} );
+        alert("سفر شما ساخته شد");
+        if (response.data.status === "success") {
           setTimeout(() => {
             navigate('/Start')
-        }, 3000); // Delay of 3 seconds
+        }, 3000); 
         }
-        navigate('/Start')
-        setIs_driver(1)
+       
+        console.log(response);
+        
       };
 
       useEffect(() => {
@@ -134,8 +137,8 @@ const Newtrips = ()=> {
         console.log(locc1);
       }, []);
 
-      const getloc = async(num,event) => {
-        
+      const getloc = async(event,num) => {
+        console.log(event);
         const selectedCityId = event.target.value;
         const tok = { "city_id": selectedCityId };
         const response = await axios.get('http://127.0.0.1:8000/travels/city_locations/', { params: tok });
@@ -169,7 +172,7 @@ const Newtrips = ()=> {
 
 
 
-        {inputs.map((input) => ( (input.type === "select" ) ? <select name={input.name} onChange={getloc} className="formInput">
+        {inputs.map((input) => ( (input.type === "select" ) ? <select name={input.name} onChange={(event)=>getloc(event,input.id)} className="formInput">
 
           <option>{input.placeholder}</option>{loc.map((s) => <option  value={s.id} >{s.name}</option>)}
 

@@ -159,7 +159,7 @@ class UserTravelsAPIView(APIView):
 
 
 class UserActiveTravelAPIView(APIView):
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.AllowAny,)
     authentication_classes = (TokenAuthentication,)
 
     def get(self, request, format=None):
@@ -194,14 +194,16 @@ class UserActiveTravelAPIView(APIView):
 
 
 class CreateTravelAPIView(APIView):
-    permission_classes = (permissions.IsAuthenticated,)
-    authentication_classes = (TokenAuthentication,)
+    permission_classes = (permissions.AllowAny,)
+    
 
     def post(self, request, format=None):
         try:
+            
             data = self.request.data
             user = get_user_from_request(request)
             user_profile = UserProfile.objects.get(user=user)
+            print(user_profile.student_number)
             isDriver = data['is_driver']
             origin = ImportantLocation.objects.get(id=data['origin_id'])
             destination = ImportantLocation.objects.get(id=data['destination_id'])

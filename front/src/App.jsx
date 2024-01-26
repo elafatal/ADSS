@@ -27,7 +27,7 @@ function App(){
                 <Route path='/signup' element={<Signup/>} />
                 <Route path='/info' element={<Info/>} />
                 <Route path='/newtrip' element={<Newtrips/>} />
-                <Route path='/mytrip' element={<MyTrips/>} />
+                <Route path='/mytrips' element={<MyTrips/>} />
                 <Route path='/searshTrips' element={<SearchTrips/>} />
                 <Route path='/existtrips' element={<ExistingTrips/>} />
                 <Route path='/pay' element={<Pay/>} />

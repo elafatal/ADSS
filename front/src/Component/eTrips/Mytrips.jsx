@@ -1,4 +1,7 @@
 import "../eTrips/Trips.css"
+import axios from 'axios'
+import Cookies from 'universal-cookie';
+import {useNavigate} from "react-router-dom"
 import logo from '../eTrips/img/edit.jpg';
 import logo1 from '../eTrips/img/search.png';
 import logo2 from '../eTrips/img/car.jpg';
@@ -6,23 +9,43 @@ import logo3 from '../eTrips/img/clock.jpg';
 import logo4 from '../eTrips/img/calendar.jpg';
 import logo5 from '../eTrips/img/male.jpg';
 import logo6 from '../eTrips/img/female.jpg';
+import { useEffect } from 'react'
+import {  useState } from 'react'
 
 
-const MyTrips = () => {
+const ExistingTrips = () => {
+    const [loc, setLoc] = useState({});
     // {"data":{"id":3,"origin_city":"Babol","origin_location":"dar asli","destination_city":"Sari","destination_location":"meydun Imam","situation":"1","travelers":[{"id":2,"firstname":"","lastname":""},{"id":5,"firstname":"","lastname":""}]}}
     const response={
         "data": [
                 { 
                 "startinglocatin" : "خیابان نادر",
                 "destination":"دانشگاه نوشیروانی",
-                "dcity" : "بابل",
-                "scity" : "ساری",
+                "destination_city" : "بابل",
+                "origin_city" : "ساری",
                 "id": 0 ,
-                "travelers" : [{"name":"محمدرضا شجریان"},{"name":"حسین بهزادی"},{"name":" یحیی گلمحمدی "},{"name":"مهنا حسنی"}],
+                "travelers" : [{"name":"مهنا حسنی"},{"name":"حسین بهزادی"},{"name":" یحیی گلمحمدی "},{"name":"مهنا حسنی"}],
                 "time" : "15:00"
                 }
         ]
     }
+
+    const getActiveTrips =async () => {
+        const cookies = new Cookies();
+        const response = await axios.get('http://127.0.0.1:8000/travels/active_travel/', {
+            headers: {
+              Authorization: `Bearer ${ cookies.get("access_token")}`
+            }} );
+        let data = [...loc]
+        data = response.data.data
+        setLoc(data);
+        console.log(response.data.data);
+    }
+    useEffect(() => {
+        getActiveTrips();
+        console.log(loc);
+      }, []); 
+    
     let users = [];
     
      const member = (n) => {
@@ -40,7 +63,6 @@ const MyTrips = () => {
                    
                     <p style={{fontSize : "22px"}}>{ response.data[n].travelers[i]===undefined ? "جای خالی" :response.data[n].travelers[i].name}</p>
                 </div>
-                
         );}
        
    
@@ -50,21 +72,19 @@ const MyTrips = () => {
     return (
         <>
         
-      <div className="yoho">
-      
-      <input style={{fontSize : "20px" , borderColor : "black" , color : "red" , marginTop : "30px"}} placeholder=" مبلغ سفر"></input>
-      <button  type='submit'  className="read-more">خروج از حساب</button>
+      <div style={{  height: "100vh"}}  className="yoho">
+        
       <ul>
         {response.data.map((trips, index) => (
-          <li key={index}><div className="container about">
+          <li style={{display : "flex" , margin : "auto"}} key={index}><div className="container about">
           <div className="card-container">
               <div className="inner-card">
                   <div className="header-bg"></div>
                   <div className="card-header11">
                       <div className="car-icon11">
                           <img src={logo2} alt="logo2"/>
-                          <p>{trips.startinglocatin}-{trips.scity} <br/>
-                          {trips.destination} -<p>{trips.dcity}</p></p>
+                          <p>{trips.startinglocatin}-{trips.origin_city} <br/>
+                          {trips.destination} -<p>{trips.destination_city}</p></p>
                       </div>
                       <div className="time">
                           <img src={logo3} alt="logo3"/>
@@ -78,7 +98,7 @@ const MyTrips = () => {
                   </div>
                   <div className="ask-box">
                       <p></p>
-                      <button style={{width: "150px" , height : "60px", marginTop : "30px" , fontSize : "20px"}} >خروج از سفر</button>
+                      <button style={{width: "150px" , height : "60px", marginTop : "30px" , fontSize : "20px"}} >لغو سفر</button>
                     
                   </div>
               </div>
@@ -87,9 +107,7 @@ const MyTrips = () => {
           
       </div></li>
         ))}
-        
       </ul>
-      
       </div>
         
     
@@ -97,4 +115,4 @@ const MyTrips = () => {
     )
 }
 
-export default MyTrips
+export default ExistingTrips
