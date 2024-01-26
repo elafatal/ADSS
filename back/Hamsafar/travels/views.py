@@ -175,7 +175,8 @@ class UserActiveTravelAPIView(APIView):
                 'name': y + " " + z,
             } for x, y, z in
                 travel.travelers.values_list('user__user__id', 'user__user__first_name', 'user__user__last_name')]
-            travel_data = {
+            travel_data = []
+            travel_data.append({
                 'id': travel.id,
                 'origin_city': travel.origin.city.name,
                 'origin_location': travel.origin.name,
@@ -184,7 +185,7 @@ class UserActiveTravelAPIView(APIView):
                 'situation': travel.situation.title(),
                 'travelers': travelers_data,
                 'time': "" if travel.time is None else travel.time.strftime("%m/%d/%Y, %H:%M:%S"),
-            }
+            })
 
             return Response({'data': travel_data, 'status': 'success'})
         except Exception as e:
