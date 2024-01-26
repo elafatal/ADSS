@@ -3,7 +3,7 @@ from django.db import IntegrityError
 from django.shortcuts import render
 from django.db.models import Q, When, Case, Count
 from rest_framework.exceptions import AuthenticationFailed
-
+from datetime import datetime
 from django.http import HttpResponse
 from .models import *
 from django.contrib import auth
@@ -16,7 +16,6 @@ from jose import jwt
 from rest_framework.authentication import TokenAuthentication
 from .utils import generate_access_token
 from Hamsafar import settings
-
 
 # Create your views here.
 from Hamsafar import settings
@@ -195,19 +194,26 @@ class UserActiveTravelAPIView(APIView):
 
 class CreateTravelAPIView(APIView):
     permission_classes = (permissions.AllowAny,)
-    
 
     def post(self, request, format=None):
         try:
-            
+
             data = self.request.data
             user = get_user_from_request(request)
             user_profile = UserProfile.objects.get(user=user)
             print(user_profile.student_number)
             isDriver = data['is_driver']
+            time = data['time']
+            hour = time[0:2]
+            minute = time[3:]
+            date = data['date']
+            year = date[0:4]
+            month = date[5:8]
+            day = date[9:11]
+            date_time = datetime(year, month, day, hour, minute, 00)
             origin = ImportantLocation.objects.get(id=data['origin_id'])
             destination = ImportantLocation.objects.get(id=data['destination_id'])
-            travel = Travel.objects.create(origin=origin, destination=destination, made_by=user_profile)
+            travel = Travel.objects.create(origin=origin, destination=destination, made_by=user_profile, time=date_time)
             travel.save()
             traveler = Traveler.objects.create(travel=travel, user=user_profile)
             traveler.save()
@@ -477,7 +483,7 @@ class CityLocationsAPIView(APIView):
         try:
             data = self.request.data
             print(data)
-            city_id =request.query_params.get('city_id', None)
+            city_id = request.query_params.get('city_id', None)
             locations = ImportantLocation.objects.filter(city_id=city_id)
             data = []
             for location in locations:
@@ -519,18 +525,19 @@ class SearchTravelsAPIView(APIView):
     def get(self, request, format=None):
         try:
             data = self.request.data
-          
+
             print(data)
             origin_id = request.data.get('origin_id', None)
             print(request.data)
-            
+
             origin = ImportantLocation.objects.get(id=origin_id)
-            destination_id =request.data.get('destination_id', None)
+            destination_id = request.data.get('destination_id', None)
             destination = ImportantLocation.objects.get(id=destination_id)
             result = Travel.objects.annotate(num_travelers=Count('travelers'))
             not_full_travels = result.filter(driver__isnull=True, num_travelers__lt=4) | result.filter(
                 driver__isnull=False,
                 num_travelers__lt=5)
+            print(not_full_travels)
             travels = not_full_travels.filter(
                 Q(origin__city=origin.city) & Q(destination__city=destination.city) & Q(situation=1)
             ).order_by(
