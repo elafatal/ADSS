@@ -9,9 +9,11 @@ import Alert from '@mui/material/Alert';
 const Newtrips = ()=> {
   const navigate = useNavigate();
   const [loc, setLoc] = useState([]);
+  const [is_driver , setIs_driver] = useState(0);
   const [locc, setlocc] = useState([]);
   const [locc1, setlocc1] = useState([]);
   
+
 
   const handlecity = async () => {
     try {
@@ -22,6 +24,7 @@ const Newtrips = ()=> {
 
     } catch (error) {
       console.error('Error fetching cities:', error);
+
     }
   };
    useEffect(() => {
@@ -123,10 +126,8 @@ const Newtrips = ()=> {
         console.log(values);
       };
 
-      useEffect(() => {
-        
-        console.log(locc);
-      }, []);
+
+
 
       useEffect(() => {
         
@@ -158,6 +159,7 @@ const Newtrips = ()=> {
        } 
        
 
+
     return(
       
         <div className="app" >
@@ -165,8 +167,12 @@ const Newtrips = ()=> {
       <form onSubmit={handleSubmit}>
         <h1><i className="fa-solid fa-car-side"></i> ایجاد سفر جدید </h1>
 
-        {inputs.map((input) => ( (input.type === "select" ) ? <select name={input.name} onChange={(event) => getloc(input.id, event)} className="formInput">
+
+
+        {inputs.map((input) => ( (input.type === "select" ) ? <select name={input.name} onChange={getloc} className="formInput">
+
           <option>{input.placeholder}</option>{loc.map((s) => <option  value={s.id} >{s.name}</option>)}
+
            </select> :
         (input.type === "loc" && input.id===2 ) ? (<select name={input.name} onChange={onChange} className="formInput">
           <option>{input.placeholder}</option>{locc.map((sm) => <option value={sm.id} >{sm.name}</option>)} </select>) :
