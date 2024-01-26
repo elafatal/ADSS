@@ -204,12 +204,12 @@ class CreateTravelAPIView(APIView):
             print(user_profile.student_number)
             isDriver = data['is_driver']
             time = data['time']
-            hour = time[0:2]
-            minute = time[3:]
+            hour = int(time[0:2])
+            minute = int(time[3:])
             date = data['date']
-            year = date[0:4]
-            month = date[5:8]
-            day = date[9:11]
+            year = int(date[0:4])
+            month = int(date[5:8])
+            day = int(date[9:11])
             date_time = datetime(year, month, day, hour, minute, 00)
             origin = ImportantLocation.objects.get(id=data['origin_id'])
             destination = ImportantLocation.objects.get(id=data['destination_id'])
