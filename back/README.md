@@ -206,6 +206,8 @@ Create a new travel
 - is_driver
 - origin_id
 - destination_id
+- date
+- time
 
 **Response:**
 ```json
