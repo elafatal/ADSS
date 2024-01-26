@@ -11,7 +11,7 @@ function Admin() {
       <section id="sidebar"  className={isActive ? 'hide': null} >
         <a href="#" className="brand">
           <i className='bx bxs-smile'></i>
-          <span className="text">AdminHub</span>
+          <div className="text">Admin Panel</div>
         </a>
         <ul className="side-menu top">
           <li className="active">
@@ -74,7 +74,7 @@ function Admin() {
           </form>
           <a href="#" className="notification">
             <i className='bx bxs-bell' ></i>
-            <span className="num">8</span>
+            <div className="num">8</div>
           </a>
           <a href="#" className="profile">
             <img src="https://secure.gravatar.com/avatar/d09eaad01aea86c51b4f892b4f8abf6f?s=100&d=wavatar&r=g" />
@@ -82,7 +82,7 @@ function Admin() {
         </nav>
       
         <main>
-          <div className="head-title">
+          <div  className="head-title">
             <div className="left">
               <h1>Dashboard</h1>
               <ul className="breadcrumb">
@@ -97,34 +97,11 @@ function Admin() {
             </div>
             <a href="#" className="btn-download">
               <i className='bx bxs-cloud-download' ></i>
-              <span className="text">Download PDF</span>
+              <div className="text">Download PDF</div>
             </a>
           </div>
 
-          <ul className="box-info">
-            <li>
-              <i className='bx bxs-calendar-check' ></i>
-              <span className="text">
-                <h3>1020</h3>
-                <p>New Order</p>
-              </span>
-            </li>
-            <li>
-              <i className='bx bxs-group' ></i>
-              <span className="text">
-                <h3>2834</h3>
-                <p>Visitors</p>
-              </span>
-            </li>
-            <li>
-              <i className='bx bxs-dollar-circle' ></i>
-              <span className="text">
-                <h3>$2543</h3>
-                <p>Total Sales</p>
-              </span>
-            </li>
-          </ul>
-
+       
 
           <div className="table-data">
             <div className="order">
@@ -133,57 +110,29 @@ function Admin() {
                 <i className='bx bx-search' ></i>
                 <i className='bx bx-filter' ></i>
               </div>
-              <table>
-                <thead>
-                  <tr>
-                    <th>User</th>
-                    <th>Date Order</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <img src="https://secure.gravatar.com/avatar/d09eaad01aea86c51b4f892b4f8abf6f?s=100&d=wavatar&r=g" />
-                      <p>John Doe</p>
-                    </td>
-                    <td>01-10-2023</td>
-                    <td><span className="status completed">Completed</span></td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <img src="https://secure.gravatar.com/avatar/d09eaad01aea86c51b4f892b4f8abf6f?s=100&d=wavatar&r=g" />
-                      <p>John Doe</p>
-                    </td>
-                    <td>01-10-2023</td>
-                    <td><span className="status pending">Pending</span></td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <img src="https://secure.gravatar.com/avatar/d09eaad01aea86c51b4f892b4f8abf6f?s=100&d=wavatar&r=g" />
-                      <p>John Doe</p>
-                    </td>
-                    <td>01-10-2023</td>
-                    <td><span className="status process">Process</span></td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <img src="https://secure.gravatar.com/avatar/d09eaad01aea86c51b4f892b4f8abf6f?s=100&d=wavatar&r=g" />
-                      <p>John Doe</p>
-                    </td>
-                    <td>01-10-2023</td>
-                    <td><span className="status pending">Pending</span></td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <img src="https://secure.gravatar.com/avatar/d09eaad01aea86c51b4f892b4f8abf6f?s=100&d=wavatar&r=g" />
-                      <p>John Doe</p>
-                    </td>
-                    <td>01-10-2023</td>
-                    <td><span className="status completed">Completed</span></td>
-                  </tr>
-                </tbody>
-              </table>
+              <ul className="box-info">
+            <li>
+              <i className='bx bxs-calendar-check' ></i>
+              <button style={{padding:"15px", width:"130px", height:"80px" , backgroundColor :"#F9F9F9"}} className="text">
+                <h3>1020</h3>
+                <p>New Order</p>
+              </button>
+            </li>
+            <li>
+              <i className='bx bxs-group' ></i>
+              <button style={{padding:"15px", width:"120px", height:"80px" , backgroundColor :"#F9F9F9"}} className="text">
+                <h3>2834</h3>
+                <p>Visitors</p>
+              </button>
+            </li>
+            <li>
+              <i className='bx bxs-dollar-circle' ></i>
+              <button style={{padding:"15px", width:"120px", height:"90px" , backgroundColor :"#F9F9F9"}} className="text">
+                <h3>$2543</h3>
+                <p>Total Sales</p>
+              </button>
+            </li>
+          </ul>
             </div>
             <div className="todo">
               <div className="head">

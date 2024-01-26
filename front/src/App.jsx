@@ -13,7 +13,8 @@ import ExistingTrips from './Component/eTrips/ExistingTrips'
 import SearchTrips from './Component/eTrips/SearchTrips'
 import MyTrips from './Component/eTrips/Mytrips'
 import Admin from './Component/admin/Admin'
-
+import AdminLogin from './Component/admin/AdminLogin'
+import AdminViewTrips from './Component/admin/AdminViewTrips'
 
 
 function App(){
@@ -33,6 +34,8 @@ function App(){
                 <Route path='/payforme' element={<Payforme/>} />
                 <Route path='/about' element={<About/>} />
                 <Route path='/admin' element={<Admin/>} />
+                <Route path='/AdminLogin' element={<AdminLogin/>} />
+                <Route path='/Adminviewtrips' element={<AdminViewTrips/>} />
                 
                 
             </Routes>

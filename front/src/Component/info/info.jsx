@@ -2,6 +2,7 @@ import {  useState } from 'react'
 import FormInput from '../start/FormInput'
 import "../start/profile.css"
 import {useNavigate} from "react-router-dom"
+
 import axios from 'axios'
 
 const Info = ()=> {

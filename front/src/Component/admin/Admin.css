@@ -315,7 +315,7 @@ body {
 /* MAIN */
 #content main {
   width: 100%;
-  padding: 36px 24px;
+  padding: 22px 24px;
   font-family: var(--poppins);
   max-height: calc(100vh - 56px);
   overflow-y: auto;
@@ -425,8 +425,10 @@ body {
   border-radius: 20px;
   background: var(--light);
   padding: 24px;
+  margin: 17px;
   overflow-x: auto;
 }
+
 #content main .table-data .head {
   display: flex;
   align-items: center;
