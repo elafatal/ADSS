@@ -19,10 +19,7 @@ from Hamsafar import settings
 
 
 # Create your views here.
-<<<<<<< HEAD
 from Hamsafar import settings
-=======
->>>>>>> 938c4062a46880390d5b984eb2648440e37e633a
 
 
 class SignUpAPIView(APIView):
@@ -129,12 +126,8 @@ class UserViewAPI(APIView):
         payload = jwt.decode(user_token, settings.SECRET_KEY, algorithms=['HS256'])
 
         user = User.objects.filter(id=payload['user_id']).first()
-<<<<<<< HEAD
-        return Response({'data': user.username})
-=======
 
         return Response({'data': user.username, 'status': 'success'})
->>>>>>> 938c4062a46880390d5b984eb2648440e37e633a
 
 
 class LogoutAPIView(APIView):
@@ -477,7 +470,7 @@ class CityLocationsAPIView(APIView):
         try:
             data = self.request.data
             print(data)
-            city_id = data['city_id']
+            city_id =request.query_params.get('city_id', None)
             locations = ImportantLocation.objects.filter(city_id=city_id)
             data = []
             for location in locations:
@@ -519,9 +512,13 @@ class SearchTravelsAPIView(APIView):
     def get(self, request, format=None):
         try:
             data = self.request.data
-            origin_id = data['origin_id']
+          
+            print(data)
+            origin_id = request.data.get('origin_id', None)
+            print(request.data)
+            
             origin = ImportantLocation.objects.get(id=origin_id)
-            destination_id = data['destination_id']
+            destination_id =request.data.get('destination_id', None)
             destination = ImportantLocation.objects.get(id=destination_id)
             result = Travel.objects.annotate(num_travelers=Count('travelers'))
             not_full_travels = result.filter(driver__isnull=True, num_travelers__lt=4) | result.filter(
