@@ -30,4 +30,5 @@ urlpatterns = [
     path('admin/cancel/', OverRideDeleteTravelAPIView.as_view(), name="cancel travel as admin"),
     path('admin/creditors/', AllUserCreditorsAPIView.as_view(), name="all user creditor checks"),
     path('admin/debtors/', AllUserDebtorsAPIView.as_view(), name="all user debtor checks"),
+    path('admin/pay/', OverRidePayCheckAPIView.as_view(), name="change situation of a paycheck"),
 ]
