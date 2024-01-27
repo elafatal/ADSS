@@ -630,17 +630,15 @@ class AllUserTravelsAPIView(APIView):
             user_id = data['user_id']
             user = User.objects.get(id=user_id)
             user = UserProfile.objects.get(user=user)
-            print("1")
             travels = Travel.objects.filter(travelers__user=user)
-            print("2")
+            travel_data = []
             for travel in travels:
                 travelers_data = [{
                     'id': x,
                     'name': y + " " + z,
                 } for x, y, z in
                     travel.travelers.values_list('user__user__id', 'user__user__first_name', 'user__user__last_name')]
-                print("3")
-                travel_data = {
+                travel_data.append({
                     'id': travel.id,
                     'origin_city': travel.origin.city.name,
                     'origin_location': travel.origin.name,
@@ -649,7 +647,7 @@ class AllUserTravelsAPIView(APIView):
                     'situation': travel.situation.title(),
                     'travelers': travelers_data,
                     'time': "" if travel.time is None else travel.time.strftime("%m/%d/%Y, %H:%M:%S"),
-                }
+                })
 
             return Response({'data': travel_data, 'status': 'success'})
         except Exception as e:
