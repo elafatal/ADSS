@@ -5,10 +5,6 @@
   padding: 0;
   box-sizing: border-box;
 }
-.App{
-  background: var(--grey);
-
-}
 
 a {
   text-decoration: none;
@@ -17,7 +13,20 @@ a {
 li {
   list-style: none;
 }
-
+button {
+  width: 40%;
+  height: 50px;
+  padding: 10px;
+  border: none;
+  background-color: rgb(109, 67, 150);
+  color: rgb(255, 255, 255);
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 18px;
+  cursor: pointer;
+  margin-bottom: 30px;
+  margin: 8px 20px 10px 8px;
+}
 :root {
   --poppins: 'Poppins', sans-serif;
   --lato: 'Lato', sans-serif;
@@ -311,7 +320,10 @@ body {
 
 
 
-
+.read-more {
+  background-color: initial;
+  height: initial;
+}
 /* MAIN */
 #content main {
   width: 100%;
@@ -452,6 +464,10 @@ body {
   width: 100%;
   border-collapse: collapse;
 }
+.text button:hover{
+  background-color: #060714;
+  
+}
 #content main .table-data .order table th {
   padding-bottom: 12px;
   font-size: 13px;
@@ -538,7 +554,22 @@ body {
   #sidebar {
     width: 200px;
   }
+  
 
+button {
+    width: 40%;
+    height: 50px;
+    padding: 10px;
+    border: none;
+    background-color: rgb(109, 67, 150);
+    color: white;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+    margin-bottom: 30px;
+    margin: 8px 20px 10px 8px;
+}
   #content {
     width: calc(100% - 60px);
     left: 200px;
@@ -558,7 +589,20 @@ body {
   #content nav form .form-input input {
     display: none;
   }
-
+  button {
+    width: 40%;
+    height: 50px;
+    padding: 10px;
+    border: none;
+    background-color: rgb(109, 67, 150);
+    color: white;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+    margin-bottom: 30px;
+    margin: 8px 20px 10px 8px;
+}
   #content nav form .form-input button {
     width: auto;
     height: auto;

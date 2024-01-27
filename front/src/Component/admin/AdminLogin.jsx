@@ -47,7 +47,7 @@ const AdminLogin = ()=> {
       const handleSubmit =async (e) => {
         e.preventDefault();
 
-        let response = await axios.post('http://127.0.0.1:8000/travels/login/',values);
+        let response = await axios.post('http://127.0.0.1:8000/travels/admin/login/',values);
        
         if (response.data.status != "fail") {
           navigate('/admin')

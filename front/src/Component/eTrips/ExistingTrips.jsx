@@ -8,6 +8,8 @@ import logo4 from '../eTrips/img/calendar.jpg';
 import logo5 from '../eTrips/img/male.jpg';
 import logo6 from '../eTrips/img/female.jpg';
 import { useLocation } from 'react-router-dom';
+import Cookies from 'universal-cookie';
+import axios from 'axios'
 
 
 const ExistingTrips = (props) => {
@@ -18,48 +20,24 @@ const ExistingTrips = (props) => {
 
     console.log('data:', data)
     // {"data":{"id":3,"origin_city":"Babol","origin_location":"dar asli","destination_city":"Sari","destination_location":"meydun Imam","situation":"1","travelers":[{"id":2,"firstname":"","lastname":""},{"id":5,"firstname":"","lastname":""}]}}
-    const response={
-        "data": [
-                { 
-                "startinglocatin" : "خیابان نادر",
-                "destination":"دانشگاه نوشیروانی",
-                "dcity" : "بابل",
-                "scity" : "ساری",
-                "id": 0 ,
-                "travelers" : [{"name":"محمدرضا شجریان"},{"name":"مهنا حسنی"},{"name":"حسین بهزادی"},{"name":" یحیی گلمحمدی "}],
-                "time" : "15:00"
-                },
-                {
-                "startinglocatin" : "خیابان  18 دی ",
-                "destination":"دانشگاه نوشیروانی",
-                "dcity" : "بابل",
-                "scity" : "ساری",
-                "id" : 1,
-                "travelers": [{"name":"مهنا حسنی"},{"name":"حسین بهزادی"}],
-                "time" : "12:00"
-                },
-                {
-                "startinglocatin" : " میدان امام",
-                "destination":"دانشگاه علوم پزشکی",
-                "dcity" : "بابل",
-                "scity" : "ساری",
-                "id": 2,
-                "travelers": [{"name":"مهنا حسنی"},{"name":"حسین بهزادی"},{"name":"حسین بهزادی"}],
-                "time" : "8:00"
-                }
-        ]
+    const handleJoin =async (id) =>{
+        const tok = { "travel_id": id };
+        const cookies = new Cookies();
+        const response = await axios.post('http://127.0.0.1:8000/travels/join/',tok, {
+          headers: {
+            Authorization: `Bearer ${ cookies.get("access_token")}`
+          }} );
+
+        console.log(response);
+        console.log('gooooooh',id);
     }
+
     let users = [];
     
      const member = (n) => {
         users=[]
-        let count = 4
-        let traveler_count = response.data[n].travelers.length
-        if (traveler_count === 5){
-            count = 5
-        }
-        console.log(traveler_count)
-        for (let i = 0; i <count; i++) {
+       
+        for (let i = 0; i <4; i++) {
             users.push(
                 <div className="user">
                     <img src={logo5} alt="logo5"/>
@@ -85,8 +63,8 @@ const ExistingTrips = (props) => {
                   <div className="card-header11">
                       <div className="car-icon11">
                           <img src={logo2} alt="logo2"/>
-                          <p>{trips.startinglocatin}-{trips.scity} <br/>
-                          {trips.destination} -<p>{trips.dcity}</p></p>
+                          <p>{trips.origin_location}-{trips.origin_city} <br/>
+                          {trips.destination_location} -<p>{trips.destination_city}</p></p>
                       </div>
                       <div className="time">
                           <img src={logo3} alt="logo3"/>
@@ -100,7 +78,7 @@ const ExistingTrips = (props) => {
                   </div>
                   <div className="ask-box">
                       <p></p>
-                      <button style={{width: "150px" , height : "60px", marginTop : "30px" , fontSize : "20px"}} >ورود به سفر</button>
+                      <button onClick={(e)=>handleJoin(trips.id)} style={{width: "150px" , height : "60px", marginTop : "30px" , fontSize : "20px"}} >ورود به سفر</button>
                     
                   </div>
               </div>

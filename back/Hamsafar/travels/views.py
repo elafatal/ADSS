@@ -246,7 +246,7 @@ class CheckAuthenticatedAPIView(APIView):
 
 
 class JoinTravelAPIView(APIView):
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.AllowAny,)
     authentication_classes = (TokenAuthentication,)
 
     def post(self, request, format=None):
@@ -625,20 +625,19 @@ class AllUserTravelsAPIView(APIView):
     def get(self, request, format=None):
         try:
             data = self.request.data
-            user_id = data['user_id']
+            user_id = request.query_params.get('user_id', None)
             user = User.objects.get(id=user_id)
+            print(user.id)
             user = UserProfile.objects.get(user=user)
-            print("1")
             travels = Travel.objects.filter(travelers__user=user)
-            print("2")
+            travel_data = []
             for travel in travels:
                 travelers_data = [{
                     'id': x,
                     'name': y + " " + z,
                 } for x, y, z in
                     travel.travelers.values_list('user__user__id', 'user__user__first_name', 'user__user__last_name')]
-                print("3")
-                travel_data = {
+                travel_data.append({
                     'id': travel.id,
                     'origin_city': travel.origin.city.name,
                     'origin_location': travel.origin.name,
@@ -647,7 +646,7 @@ class AllUserTravelsAPIView(APIView):
                     'situation': travel.situation.title(),
                     'travelers': travelers_data,
                     'time': "" if travel.time is None else travel.time.strftime("%m/%d/%Y, %H:%M:%S"),
-                }
+                })
 
             return Response({'data': travel_data, 'status': 'success'})
         except Exception as e:
@@ -661,7 +660,8 @@ class OverRideDeleteTravelAPIView(APIView):
     def delete(self, request, format=None):
         try:
             data = self.request.data
-            travel = Travel.objects.get(id=data['travel_id'])
+            travel_id = request.query_params.get('travel_id', None)
+            travel = Travel.objects.get(id=travel_id)
             travel.situation = "0"
             travel.save()
             return Response({'message': 'deleted successfully', 'status': 'success'})
