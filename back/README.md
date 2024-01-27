@@ -597,6 +597,24 @@ Get all user's travel.
 
 ```
 
+### `POST /pay/`
+
+Override a paycheck payed situation
+
+**Parameters:**
+- travel_id
+
+
+
+**Response:**
+```json
+{
+    "message": "deleted successfully",
+    "status": "success"
+}
+```
+
+
 ### `GET /creditors/`
 
 Get given user's creditor checks
