@@ -597,9 +597,9 @@ Get all user's travel.
 
 ```
 
-### `POST /pay/`
+### `DELETE /cancel/`
 
-Override a paycheck payed situation
+Override and cancel travel
 
 **Parameters:**
 - travel_id
