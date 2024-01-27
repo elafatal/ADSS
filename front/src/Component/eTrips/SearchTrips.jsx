@@ -4,6 +4,7 @@ import "../start/profile.css"
 import {useNavigate} from "react-router-dom"
 import axios from 'axios' 
 import { useEffect } from 'react'
+import ExistingTrips from "./ExistingTrips.jsx";
 
 
 const SearchTrips=()=>{
@@ -12,6 +13,7 @@ const SearchTrips=()=>{
   const [locc, setlocc] = useState([]);
   const [locc1, setlocc1] = useState([]);
   const [res,setRes] = useState([])
+  const [shouldNavigate, setShouldNavigate] = useState(false);
 
   const handlecity = async () => {
     try {
@@ -77,23 +79,39 @@ const SearchTrips=()=>{
       ]
 
     const handleSubmit =async(e) => {
-        e.preventDefault();
-        console.log(values);
-        const response = await axios.get('http://127.0.0.1:8000/travels/search/', {params: values});
-        
-        if (response.data.status === "success") {
-          navigate('/existtrips')
-        }
-        const myRes = response.data.data
-      setRes(myRes)
-      console.log("zaneto gaidam");
-      console.log(myRes);
+try {
+    e.preventDefault();
+    const response = await axios.get('http://127.0.0.1:8000/travels/search/', {params: values});
+
+    if (response.data.status === "success") {
+
+        let data = [...res]
+        data = response.data.data
+        setRes(data);
+        setShouldNavigate(true);
+    }
+
+}
+catch (error) {
+      console.error('Error :', error);
+    }
        
       };
-     
+
+            useEffect(() => {
+                    console.error('res :', res);
+if (shouldNavigate) {
+
+    navigate('/existtrips', { state: { data: res } });
+  }
+}, [shouldNavigate, res, navigate]);
+
+
       useEffect(() => {
         console.log(values);
        }, [values]);
+
+
 
     const onChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });
@@ -159,7 +177,6 @@ const SearchTrips=()=>{
         ))}
         <button type='submit'  style={{height: '50%' }} >جستجوی سفر</button>
       </form>
-      
     </div>
     )
 }

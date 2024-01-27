@@ -7,11 +7,16 @@ import logo3 from '../eTrips/img/clock.jpg';
 import logo4 from '../eTrips/img/calendar.jpg';
 import logo5 from '../eTrips/img/male.jpg';
 import logo6 from '../eTrips/img/female.jpg';
+import { useLocation } from 'react-router-dom';
 
 
 const ExistingTrips = (props) => {
     
     const dataArray = props.data;
+     const location = useLocation();
+  const data = location.state?.data || [];
+
+    console.log('data:', data)
     // {"data":{"id":3,"origin_city":"Babol","origin_location":"dar asli","destination_city":"Sari","destination_location":"meydun Imam","situation":"1","travelers":[{"id":2,"firstname":"","lastname":""},{"id":5,"firstname":"","lastname":""}]}}
     const response={
         "data": [
@@ -59,7 +64,7 @@ const ExistingTrips = (props) => {
                 <div className="user">
                     <img src={logo5} alt="logo5"/>
                    
-                    <p style={{fontSize : "22px"}}>{ response.data[n].travelers[i]===undefined ? "جای خالی" :response.data[n].travelers[i].name}</p>
+                    <p style={{fontSize : "22px"}}>{ data[n].travelers[i]===undefined ? "جای خالی" :data[n].travelers[i].name}</p>
                 </div>
         );}
         console.log(dataArray);
@@ -72,7 +77,7 @@ const ExistingTrips = (props) => {
       <div  className="yoho">
         
       <ul>
-        {response.data.map((trips, index) => (
+        {data.map((trips, index) => (
           <li key={index}><div className="container about">
           <div className="card-container">
               <div className="inner-card">
