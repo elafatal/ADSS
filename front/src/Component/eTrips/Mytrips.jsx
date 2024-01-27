@@ -38,7 +38,7 @@ const Mytrips = () => {
     
      const member = (n) => {
         users=[]
-        for (let i = 1; i <=4; i++) {
+        for (let i = 0; i <4; i++) {
             users.push(
                 <div className="user">
                     <img src={logo5} alt="logo5"/>
@@ -63,7 +63,7 @@ const Mytrips = () => {
      const handleStart =async () =>{
         const cookies = new Cookies();
         setFinish(true)
-        const response = await axios.put('http://127.0.0.1:8000/travels/start/', {
+        const response = await axios.put('http://127.0.0.1:8000/travels/start/', {},{
             headers: {
               Authorization: `Bearer ${ cookies.get("access_token")}`
             }} );
@@ -73,7 +73,7 @@ const Mytrips = () => {
      const handleFinish =async () =>{
         const cookies = new Cookies();
         setFinish(true)
-        const response = await axios.put('http://127.0.0.1:8000/travels/finish/', {
+        const response = await axios.put('http://127.0.0.1:8000/travels/finish/', {},{
             headers: {
               Authorization: `Bearer ${ cookies.get("access_token")}`
             }} );

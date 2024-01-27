@@ -83,7 +83,7 @@ class LoginAPIView(APIView):
 
 def get_user_from_request(request):
     user_token = request.headers.get('Authorization', '').split(' ')[-1]
-
+    print(f"jaaaan{user_token}")
     if not user_token:
         raise AuthenticationFailed('Unauthenticated user.')
 
