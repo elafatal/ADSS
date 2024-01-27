@@ -5,12 +5,13 @@ import {useNavigate} from "react-router-dom"
 import axios from 'axios' 
 import { useEffect } from 'react'
 
+
 const SearchTrips=()=>{
   const navigate = useNavigate();
   const [loc, setLoc] = useState([]);
   const [locc, setlocc] = useState([]);
   const [locc1, setlocc1] = useState([]);
-  
+  const [res,setRes] = useState([])
 
   const handlecity = async () => {
     try {
@@ -28,7 +29,7 @@ const SearchTrips=()=>{
     console.log(loc);
   }, []); 
 
-
+ 
   const [values, setValues] = useState({
     
     origin_id: "",
@@ -77,16 +78,19 @@ const SearchTrips=()=>{
 
     const handleSubmit =async(e) => {
         e.preventDefault();
-        const tok = {values}
-        const response = await axios.get('http://127.0.0.1:8000/travels/city_locations/', tok, { headers: { 'Content-Type': 'application/json', }, });
+        console.log(values);
+        const response = await axios.get('http://127.0.0.1:8000/travels/search/', {params: values});
         
         if (response.data.status === "success") {
           navigate('/existtrips')
         }
-        
-       console.log(response);
+        const myRes = response.data.data
+      setRes(myRes)
+      console.log("zaneto gaidam");
+      console.log(myRes);
+       
       };
-
+     
       useEffect(() => {
         console.log(values);
        }, [values]);
@@ -155,6 +159,7 @@ const SearchTrips=()=>{
         ))}
         <button type='submit'  style={{height: '50%' }} >جستجوی سفر</button>
       </form>
+      
     </div>
     )
 }

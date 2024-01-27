@@ -206,7 +206,7 @@ class CreateTravelAPIView(APIView):
             isDriver = data['is_driver']
             time = data['time']
             hour = int(time[0:2])
-            minute = int(time[3:5])
+            minute = int(time[3:])
             date = data['date']
             year = int(date[0:4])
             month = int(date[5:7])
@@ -271,7 +271,7 @@ class JoinTravelAPIView(APIView):
 
 
 class StartTravelAPIView(APIView):
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.AllowAny,)
     authentication_classes = (TokenAuthentication,)
 
     def put(self, request, format=None):
@@ -337,7 +337,7 @@ class SetPriceAPIView(APIView):
 
 
 class FinishTravelAPIView(APIView):
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.AllowAny,)
     authentication_classes = (TokenAuthentication,)
 
     def put(self, request, format=None):
@@ -483,7 +483,6 @@ class CityLocationsAPIView(APIView):
     def get(self, request, format=None):
         try:
             data = self.request.data
-            print(data)
             city_id = request.query_params.get('city_id', None)
             locations = ImportantLocation.objects.filter(city_id=city_id)
             data = []
@@ -499,16 +498,16 @@ class CityLocationsAPIView(APIView):
 
 
 class DeleteTravelAPIView(APIView):
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.AllowAny,)
     authentication_classes = (TokenAuthentication,)
 
     def delete(self, request, format=None):
         try:
             user = get_user_from_request(request)
             user_profile = UserProfile.objects.get(user=user)
-            active_travel = Travel.objects.get(
+            active_travel = Travel.objects.filter(
                 Q(situation="1") & Q(made_by=user_profile)
-            )
+            ).first()
             if active_travel is None:
                 return Response({'error': 'not any active travel', 'status': 'fail'})
             active_travel.situation = "0"
@@ -516,7 +515,7 @@ class DeleteTravelAPIView(APIView):
             return Response({'message': 'deleted successfully', 'status': 'success'})
         except Exception as e:
             print(e)
-            return Response({'error': 'an error occurred', 'status': 'fail'})
+            return Response({'error': f'an error occurred {e}', 'status': 'fail'})
 
 
 class SearchTravelsAPIView(APIView):
@@ -525,14 +524,11 @@ class SearchTravelsAPIView(APIView):
 
     def get(self, request, format=None):
         try:
+           
             data = self.request.data
-
-            print(data)
-            origin_id = request.data.get('origin_id', None)
-            print(request.data)
-
+            origin_id = request.query_params.get('origin_id', None)
             origin = ImportantLocation.objects.get(id=origin_id)
-            destination_id = request.data.get('destination_id', None)
+            destination_id = request.query_params.get('destination_id', None)
             destination = ImportantLocation.objects.get(id=destination_id)
             result = Travel.objects.annotate(num_travelers=Count('travelers'))
             not_full_travels = result.filter(driver__isnull=True, num_travelers__lt=4) | result.filter(

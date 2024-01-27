@@ -9,7 +9,9 @@ import logo5 from '../eTrips/img/male.jpg';
 import logo6 from '../eTrips/img/female.jpg';
 
 
-const ExistingTrips = () => {
+const ExistingTrips = (props) => {
+    
+    const dataArray = props.data;
     // {"data":{"id":3,"origin_city":"Babol","origin_location":"dar asli","destination_city":"Sari","destination_location":"meydun Imam","situation":"1","travelers":[{"id":2,"firstname":"","lastname":""},{"id":5,"firstname":"","lastname":""}]}}
     const response={
         "data": [
@@ -60,8 +62,7 @@ const ExistingTrips = () => {
                     <p style={{fontSize : "22px"}}>{ response.data[n].travelers[i]===undefined ? "جای خالی" :response.data[n].travelers[i].name}</p>
                 </div>
         );}
-       
-   
+        console.log(dataArray);
      }
     
      

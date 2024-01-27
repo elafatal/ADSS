@@ -36,9 +36,9 @@ const Newtrips = ()=> {
   const [values, setValues] = useState({
     is_driver: "0",
     origin_id: "",
-    destination_id: ""
-    // time : "",
-    // date : ""
+    destination_id: "",
+    time : "",
+    date : ""
   });
 
 
@@ -78,25 +78,25 @@ const Newtrips = ()=> {
             errorMessage:
               "destination is empty!",
             required: true,
-          }
-          // {
-          //   id: 5,
-          //   name: "time",
-          //   type: "time",
-          //   placeholder: "time",
-          //   errorMessage:
-          //     "time is empty!",
-          //   required: true,
-          // },
-          // {
-          //   id: 6,
-          //   name: "date",
-          //   type: "date",
-          //   placeholder: "time",
-          //   errorMessage:
-          //     "time is empty!",
-          //   required: true,
-          // },
+          },
+          {
+            id: 5,
+            name: "time",
+            type: "time",
+            placeholder: "time",
+            errorMessage:
+              "time is empty!",
+            required: true,
+          },
+          {
+            id: 6,
+            name: "date",
+            type: "date",
+            placeholder: "time",
+            errorMessage:
+              "time is empty!",
+            required: true,
+          },
 
 
       ]
@@ -108,8 +108,8 @@ const Newtrips = ()=> {
           headers: {
             Authorization: `Bearer ${ cookies.get("access_token")}`
           }} );
-        alert("سفر شما ساخته شد");
         if (response.data.status === "success") {
+          alert("سفر شما ساخته شد");
           setTimeout(() => {
             navigate('/Start')
         }, 3000); 

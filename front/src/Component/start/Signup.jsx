@@ -8,6 +8,7 @@ import { useEffect } from 'react'
 const Signup = ()=> {
   const navigate=useNavigate();
     const [values, setValues] = useState({
+        name : "",
         student_number: "",
         phone_number: "",
         password: "",
@@ -15,6 +16,15 @@ const Signup = ()=> {
       });
 
       const inputs = [
+        {
+          id: 5,
+          name: "name",
+          type: "text",
+          placeholder: "نام و نام خانوادگی",
+          errorMessage: "نام خود را وارد کنید",
+          label: "Confirm Password",
+          required: true,
+        },
         {
             id: 1,
             name: "student_number",
@@ -57,6 +67,7 @@ const Signup = ()=> {
             pattern: values.password,
             required: true,
           },
+         
       ]
      
 

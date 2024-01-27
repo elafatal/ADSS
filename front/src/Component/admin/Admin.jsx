@@ -1,7 +1,37 @@
 import React, { useState } from "react";
 import "./Admin.css"
+import logo5 from '../admin/male.jpg';
 function Admin() {
   const [isActive, setActive] = useState(false);
+
+  const response={
+    "data": [
+        {
+            "card_number": "6037997404365943",
+            "price": 16000,
+            "pay_in_cash": false,
+            "user": "mamad arab"
+        },
+        {
+            "card_number": "6037997404365943",
+            "price": 16000,
+            "pay_in_cash": false,
+            "user": "younes ebrahimi"
+        },
+        {
+            "card_number": "6037997404365943",
+            "price": 16000,
+            "pay_in_cash": false,
+            "user": "sepehr"
+        },
+        {
+            "card_number": "6037997404365943",
+            "price": 16000,
+            "pay_in_cash": false,
+            "user": "kazemi",        }
+    ]
+}
+
   const toggleclassName = () => {
     setActive(!isActive);
   };
@@ -45,20 +75,7 @@ function Admin() {
             </a>
           </li>
         </ul>
-        <ul className="side-menu">
-          <li>
-            <a href="#">
-              <i className='bx bxs-cog' ></i>
-              <p className="text">Settings</p>
-            </a>
-          </li>
-          <li>
-            <a href="#" className="logout">
-              <i className='bx bxs-log-out-circle' ></i>
-              <p className="text">Logout</p>
-            </a>
-          </li>
-        </ul>
+        
       </section>
      
       <section id="content">
@@ -110,58 +127,61 @@ function Admin() {
                 <i className='bx bx-search' ></i>
                 <i className='bx bx-filter' ></i>
               </div>
-              <ul className="box-info">
-            <li>
-              <i className='bx bxs-calendar-check' ></i>
-              <button style={{padding:"15px", width:"130px", height:"80px" , backgroundColor :"#F9F9F9"}} className="text">
-                <h3>1020</h3>
-                <p>New Order</p>
-              </button>
-            </li>
-            <li>
-              <i className='bx bxs-group' ></i>
-              <button style={{padding:"15px", width:"120px", height:"80px" , backgroundColor :"#F9F9F9"}} className="text">
-                <h3>2834</h3>
-                <p>Visitors</p>
-              </button>
-            </li>
-            <li>
-              <i className='bx bxs-dollar-circle' ></i>
-              <button style={{padding:"15px", width:"120px", height:"90px" , backgroundColor :"#F9F9F9"}} className="text">
-                <h3>$2543</h3>
-                <p>Total Sales</p>
-              </button>
-            </li>
-          </ul>
+              <table>
+                <thead>
+                  <tr>
+                    <th>User</th>
+                    <th>Date Order</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <img src="https://secure.gravatar.com/avatar/d09eaad01aea86c51b4f892b4f8abf6f?s=100&d=wavatar&r=g" />
+                      <p>John Doe</p>
+                    </td>
+                    <td>01-10-2023</td>
+                    <td><div class="status completed">Completed</div></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <img src="https://secure.gravatar.com/avatar/d09eaad01aea86c51b4f892b4f8abf6f?s=100&d=wavatar&r=g" />
+                      <p>John Doe</p>
+                    </td>
+                    <td>01-10-2023</td>
+                    <td><div class="status pending">Pending</div></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <img src="https://secure.gravatar.com/avatar/d09eaad01aea86c51b4f892b4f8abf6f?s=100&d=wavatar&r=g" />
+                      <p>John Doe</p>
+                    </td>
+                    <td>01-10-2023</td>
+                    <td><div class="status process">Process</div></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <img src="https://secure.gravatar.com/avatar/d09eaad01aea86c51b4f892b4f8abf6f?s=100&d=wavatar&r=g" />
+                      <p>John Doe</p>
+                    </td>
+                    <td>01-10-2023</td>
+                    <td><div class="status pending">Pending</div></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <img src="https://secure.gravatar.com/avatar/d09eaad01aea86c51b4f892b4f8abf6f?s=100&d=wavatar&r=g" />
+                      <p>John Doe</p>
+                    </td>
+                    <td>01-10-2023</td>
+                    <td><div class="status completed">Completed</div></td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
             <div className="todo">
-              <div className="head">
-                <h3>Todos</h3>
-                <i className='bx bx-plus' ></i>
-                <i className='bx bx-filter' ></i>
-              </div>
-              <ul className="todo-list">
-                <li className="completed">
-                  <p>Todo List</p>
-                  <i className='bx bx-dots-vertical-rounded' ></i>
-                </li>
-                <li className="completed">
-                  <p>Todo List</p>
-                  <i className='bx bx-dots-vertical-rounded' ></i>
-                </li>
-                <li className="not-completed">
-                  <p>Todo List</p>
-                  <i className='bx bx-dots-vertical-rounded' ></i>
-                </li>
-                <li className="completed">
-                  <p>Todo List</p>
-                  <i className='bx bx-dots-vertical-rounded' ></i>
-                </li>
-                <li className="not-completed">
-                  <p>Todo List</p>
-                  <i className='bx bx-dots-vertical-rounded' ></i>
-                </li>
-              </ul>
+            <img style={{borderRadius: "50%"}} src={logo5} alt="logo2"/>
+            <p style={{marginTop:"25px", fontSize:"30px", display : "inline" , padding:"0px"}}> پنل ادمین  </p>
             </div>
           </div>
         </main>

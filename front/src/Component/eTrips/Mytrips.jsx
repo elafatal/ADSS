@@ -13,22 +13,10 @@ import { useEffect } from 'react'
 import {  useState } from 'react'
 
 
-const ExistingTrips = () => {
-    const [loc, setLoc] = useState({});
+const Mytrips = () => {
+    const [loc, setLoc] = useState([]);
+    const [finish, setFinish]=useState(false)
     // {"data":{"id":3,"origin_city":"Babol","origin_location":"dar asli","destination_city":"Sari","destination_location":"meydun Imam","situation":"1","travelers":[{"id":2,"firstname":"","lastname":""},{"id":5,"firstname":"","lastname":""}]}}
-    const response={
-        "data": [
-                { 
-                "startinglocatin" : "خیابان نادر",
-                "destination":"دانشگاه نوشیروانی",
-                "destination_city" : "بابل",
-                "origin_city" : "ساری",
-                "id": 0 ,
-                "travelers" : [{"name":"مهنا حسنی"},{"name":"حسین بهزادی"},{"name":" یحیی گلمحمدی "},{"name":"مهنا حسنی"}],
-                "time" : "15:00"
-                }
-        ]
-    }
 
     const getActiveTrips =async () => {
         const cookies = new Cookies();
@@ -36,46 +24,68 @@ const ExistingTrips = () => {
             headers: {
               Authorization: `Bearer ${ cookies.get("access_token")}`
             }} );
-        let data = [...loc]
-        data = response.data.data
-        setLoc(data);
-        console.log(response.data.data);
+        setLoc(response.data.data);
     }
     useEffect(() => {
         getActiveTrips();
-        console.log(loc);
       }, []); 
-    
+      useEffect(() => {
+        console.log(loc);
+      }, [loc]);
+
+      
     let users = [];
     
      const member = (n) => {
         users=[]
-        let count = 4
-        let traveler_count = response.data[n].travelers.length
-        if (traveler_count === 5){
-            count = 5
-        }
-        console.log(traveler_count)
-        for (let i = 0; i <count; i++) {
+        for (let i = 1; i <=4; i++) {
             users.push(
                 <div className="user">
                     <img src={logo5} alt="logo5"/>
                    
-                    <p style={{fontSize : "22px"}}>{ response.data[n].travelers[i]===undefined ? "جای خالی" :response.data[n].travelers[i].name}</p>
+                    <p style={{fontSize : "22px"}}>{ loc[n].travelers[i]===undefined ? "جای خالی" :loc[n].travelers[i].name}</p>
                 </div>
         );}
        
    
      }
+
+     const handleCancel=async () =>{
+        const cookies = new Cookies();
+        const response = await axios.delete('http://127.0.0.1:8000/travels/cancel/', {
+            headers: {
+              Authorization: `Bearer ${ cookies.get("access_token")}`
+            }} );
+        console.log(response);
+            
+     }
     
+     const handleStart =async () =>{
+        const cookies = new Cookies();
+        setFinish(true)
+        const response = await axios.put('http://127.0.0.1:8000/travels/start/', {
+            headers: {
+              Authorization: `Bearer ${ cookies.get("access_token")}`
+            }} );
+        console.log(response);
+            
+     }
+     const handleFinish =async () =>{
+        const cookies = new Cookies();
+        setFinish(true)
+        const response = await axios.put('http://127.0.0.1:8000/travels/finish/', {
+            headers: {
+              Authorization: `Bearer ${ cookies.get("access_token")}`
+            }} );
+            console.log(response);
+     }
      
     return (
         <>
         
       <div style={{  height: "100vh"}}  className="yoho">
-        
-      <ul>
-        {response.data.map((trips, index) => (
+       
+      <ul>{(loc === undefined) ? <p style={{fontSize: "50px"}}>سفر فعالی برای شما یافت نشد</p> : loc.map((trips, index) => (
           <li style={{display : "flex" , margin : "auto"}} key={index}><div className="container about">
           <div className="card-container">
               <div className="inner-card">
@@ -83,8 +93,8 @@ const ExistingTrips = () => {
                   <div className="card-header11">
                       <div className="car-icon11">
                           <img src={logo2} alt="logo2"/>
-                          <p>{trips.startinglocatin}-{trips.origin_city} <br/>
-                          {trips.destination} -<p>{trips.destination_city}</p></p>
+                          <p>{trips.origin_location}-{trips.origin_city} <br/>
+                          {trips.destination_location} -<p>{trips.destination_city}</p></p>
                       </div>
                       <div className="time">
                           <img src={logo3} alt="logo3"/>
@@ -98,15 +108,19 @@ const ExistingTrips = () => {
                   </div>
                   <div className="ask-box">
                       <p></p>
-                      <button style={{width: "150px" , height : "60px", marginTop : "30px" , fontSize : "20px"}} >لغو سفر</button>
-                    
+                      <button onClick={handleCancel} style={{width: "80px" , height : "60px", marginTop : "30px" , fontSize : "20px" ,marginRight : "5px"}} >لغو سفر</button>
+                    {finish===true ? <button onClick={handleFinish} style={{width: "80px" , height : "60px" , fontSize : "20px"}} >  اتمام </button> : 
+                    <button onClick={handleStart} style={{width: "80px" , height : "60px" , fontSize : "20px"}} >حرکت   </button>
+                     }
+                      
                   </div>
               </div>
           </div>
           
           
       </div></li>
-        ))}
+        )) }
+        
       </ul>
       </div>
         
@@ -115,4 +129,4 @@ const ExistingTrips = () => {
     )
 }
 
-export default ExistingTrips
+export default Mytrips
