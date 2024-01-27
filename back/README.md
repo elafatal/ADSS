@@ -668,7 +668,7 @@ Get given user's debtor checks
 }
 ```
 
-### `GET /pay/`
+### `POST /pay/`
 
 Override a paycheck payed situation
 
