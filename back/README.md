@@ -12,6 +12,8 @@ Sign up an account.
 - phone_number
 - password
 - re_password
+- first_name
+- last_name
 
 **Response:**
 ```json
@@ -552,7 +554,7 @@ Get all users.
 }
 ```
 
-### `POST /travels/`
+### `GET /travels/`
 
 Get all user's travel.
 
@@ -666,3 +668,20 @@ Get given user's debtor checks
 }
 ```
 
+### `GET /pay/`
+
+Override a paycheck payed situation
+
+**Parameters:**
+- paycheck_id
+- payed
+
+
+
+**Response:**
+```json
+{
+    "message": "successfully changed to pay",
+    "status": "success"
+}
+```

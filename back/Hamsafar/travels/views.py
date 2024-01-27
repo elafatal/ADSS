@@ -33,12 +33,14 @@ class SignUpAPIView(APIView):
             re_password = data['re_password']
             student_number = data['student_number']
             phone_number = data['phone_number']
+            first_name = data['first_name']
+            last_name = data['last_name']
 
             if password == re_password:
                 if User.objects.filter(username=student_number).exists():
                     return Response({'error': 'username already exists.', 'status': 'fail'})
                 else:
-                    user = User.objects.create_user(username=username, password=password)
+                    user = User.objects.create_user(username=username, password=password, first_name=first_name, last_name=last_name)
                     user = User.objects.get(id=user.id)
                     access_token = generate_access_token(user)
                     user_profile = UserProfile.objects.create(user=user, student_number=student_number,
@@ -727,6 +729,23 @@ class AllUserDebtorsAPIView(APIView):
                     ).user.last_name,
                 })
             return Response({'data': data, 'status': 'success'})
+        except Exception as e:
+            print(e)
+            return Response({'error': 'an error occurred', 'status': 'fail'})
+
+
+class OverRidePayCheckAPIView(APIView):
+    permission_classes = (permissions.AllowAny, )
+
+    def post(self, request, format=None):
+        try:
+            data = self.request.data
+            payed = True if data['payed'] == '1' else False
+            paycheck_id = data['paycheck_id']
+            paycheck = Paycheck.objects.get(id=paycheck_id)
+            paycheck.payed = payed
+            paycheck.save()
+            return Response({'message': 'successfully changed to pay', 'status': 'success'})
         except Exception as e:
             print(e)
             return Response({'error': 'an error occurred', 'status': 'fail'})
